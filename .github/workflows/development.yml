@@ -9,11 +9,14 @@ jobs:
       # Checkout repo
       - uses: actions/checkout@v2
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Install yarn
+        run: npm install -g yarn
+      
+      - name: Install dependencies
+        run: yarn install
 
       - name: Build site
-        run: npm run build
+        run: yarn build
 
       # Deploy the site with netlify-cli
       - name: Deploy Site
