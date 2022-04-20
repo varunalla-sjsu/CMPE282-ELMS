@@ -15,6 +15,8 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Run test for React.js
+        run: yarn test
       - name: Build site
         run: yarn build
 
