@@ -16,6 +16,32 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
+  createrepo:
+    runs-on: ubuntu-latest
+    default:
+      run:
+        working-directory: ./backend/IaC/ecr
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'Configure AWS Credentials'
+        uses: clouddrove/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+
+      - name: 'Terraform init'
+        uses: 'clouddrove/github-actions@v8.0'
+        with:
+          actions_subcommand: 'init'
+
+      - name: 'Terraform validate'
+        uses: 'clouddrove/github-actions@v8.0'
+        with:
+          actions_subcommand: 'validate'
+      - name: 'Terraform apply'
+        uses: 'clouddrove/github-actions@v8.0'
+        with:
+          actions_subcommand: 'apply'
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -39,5 +65,5 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       - name: status of instance
-        run: echo ${{steps.login-ecr.outputs}}
+        run: echo ${{steps.login-ecr.outputs.repository}}
 
