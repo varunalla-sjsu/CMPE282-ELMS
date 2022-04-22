@@ -85,7 +85,6 @@ jobs:
         uses: crazy-max/ghaction-docker-meta@v1
         with:
           tag-sha: true
-      -
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
