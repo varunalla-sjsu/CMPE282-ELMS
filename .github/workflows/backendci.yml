@@ -6,7 +6,7 @@ name: Deploy ELMS backend to ECR
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
+    branches: [ backend-ci ]
   pull_request:
     branches: [ main ]
 
