@@ -2,12 +2,12 @@ terraform {
   required_providers {
     aws = {
       version = "~> 3.27"
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
     }
   }
 }
 provider "aws" {
-    region = "us-west-1"   
+  region = "us-west-1"
 }
 resource "aws_ecr_repository" "elms-repository" {
   name                 = "elms-repository"
