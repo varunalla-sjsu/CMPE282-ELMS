@@ -18,7 +18,7 @@ jobs:
   # This workflow contains a single job called "build"
   createrepo:
     runs-on: ubuntu-latest
-    default:
+    defaults:
       run:
         working-directory: ./backend/IaC/ecr
     steps:
