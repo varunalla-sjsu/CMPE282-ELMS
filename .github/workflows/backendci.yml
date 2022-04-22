@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend/elms-backend
+        working-directory: './backend/IaC/ecr'
     env:
       TF_ACTION_WORKING_DIR: './backend/IaC/ecr'
     steps:
@@ -38,24 +38,30 @@ jobs:
         id: fmt
         run: terraform fmt -check
         env:
-          tf_actions_working_dir: './backend/elms-backend'
+          tf_actions_working_dir: './backend/IaC/ecr'
       - name: Terraform Init
         id: init
         run: terraform init
         env:
-          TF_ACTION_WORKING_DIR: './backend/IaC/ecr'
+          tf_actions_working_dir: './backend/IaC/ecr'
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
+        env:
+          tf_actions_working_dir: './backend/IaC/ecr'
       - name: Terraform Plan
         id: plan
        # if: github.event_name == 'pull_request'
         run: terraform plan -no-color -input=false
+        env:
+          tf_actions_working_dir: './backend/IaC/ecr'
         continue-on-error: true
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
+        env:
+          tf_actions_working_dir: './backend/IaC/ecr'
         continue-on-error: true
       
