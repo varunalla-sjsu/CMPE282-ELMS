@@ -67,6 +67,9 @@ jobs:
     needs: createrepo
     name: Build Image
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "./backend/IaC/ecr"
     env:
       working-directory: "./backend/elms-backend"
     steps:
