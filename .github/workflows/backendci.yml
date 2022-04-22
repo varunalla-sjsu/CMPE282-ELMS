@@ -87,7 +87,7 @@ jobs:
           images: elms-repository/elms-backend
           tag-sha: true
       - name: Build & Push image to amazon ecr
-        uses: docker/build-push-action@v2-build-push
+        uses: docker/build-push-action@v2
         with:
           push: true
           registry: ${{ steps.login-ecr.outputs.registry }}
