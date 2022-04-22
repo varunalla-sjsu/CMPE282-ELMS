@@ -20,6 +20,9 @@ jobs:
   # This workflow contains a single job called "build"
   createrepo:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend/elms-backend
     env:
       TF_ACTION_WORKING_DIR: './backend/IaC/ecr'
     steps:
