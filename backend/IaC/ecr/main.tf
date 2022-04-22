@@ -7,8 +7,7 @@ terraform {
   }
 }
 provider "aws" {
-    profile = "githubci"
-    region = "us-west-2"   
+    region = "us-west-1"   
 }
 resource "aws_ecr_repository" "elms-repository" {
   name                 = "elms-repository"
