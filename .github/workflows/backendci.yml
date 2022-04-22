@@ -93,8 +93,8 @@ jobs:
           IMAGE_TAG: ${{ steps.docker_meta.outputs.tags }}
         run: |
           cd backend/elms-backend
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker build -t $IMAGE_TAG .
+          docker push $IMAGE_TAG
 
 
 
