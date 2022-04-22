@@ -91,7 +91,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: elms-repository
-          IMAGE_TAG: ${{ steps.docker_meta.outputs.tags[1] }}
+          IMAGE_TAG: ${{ steps.docker_meta.outputs.tags }}
         run: |
           cd backend/elms-backend
           docker build -t $IMAGE_TAG .
