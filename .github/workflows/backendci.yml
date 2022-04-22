@@ -51,7 +51,6 @@ jobs:
           tf_actions_working_dir: './backend/IaC/ecr'
       - name: Terraform Plan
         id: plan
-       # if: github.event_name == 'pull_request'
         run: terraform plan -no-color -input=false
         env:
           tf_actions_working_dir: './backend/IaC/ecr'
@@ -64,4 +63,36 @@ jobs:
         env:
           tf_actions_working_dir: './backend/IaC/ecr'
         continue-on-error: true
+  build:
+    needs: createrepo
+    name: Build Image
+    runs-on: ubuntu-latest
+    env:
+      working-directory  : './backend/elms-backend'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-1
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: elms-repository
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+
+
+
+
+
+  
       
