@@ -42,16 +42,13 @@ jobs:
         run: terraform validate -no-color
       - name: Terraform Plan
         id: plan
-        if: github.event_name == 'pull_request'
+       # if: github.event_name == 'pull_request'
         run: terraform plan -no-color -input=false
         continue-on-error: true
-      - name: 'Terraform plan'
-        uses: 'clouddrove/github-actions@v8.0'
-        with:
-          actions_subcommand: 'plan'
-          tf_actions_working_dir: ./backend/IaC/ecr
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
+        continue-on-error: true
+      
