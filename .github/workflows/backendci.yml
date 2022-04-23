@@ -82,11 +82,18 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       - name: Instantiate Docker Meta
-        id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        id: meta
+        uses: crazy-max/ghaction-docker-meta@v3.7.0
         with:
           images: elms-repository/elms-backend
-          tag-sha: true
+          tags: |
+            type=raw,value=elms-repository/elms-backend-{{branch}}-{{sha}}
+      - name: print name
+        id: echometa
+        env:
+          values:${{steps.meta.outputs}}
+        run: |
+          echo $values
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -96,4 +103,4 @@ jobs:
           cd backend/elms-backend
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-  
+          
