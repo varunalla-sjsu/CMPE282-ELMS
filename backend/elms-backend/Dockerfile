@@ -1,6 +1,6 @@
 FROM node:latest
 
-ARG NODE_ENV=production
+ARG NODE_ENV=development
 ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
