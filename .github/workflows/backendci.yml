@@ -91,9 +91,10 @@ jobs:
       - name: print name
         id: echometa
         env:
-          values:${{steps.meta.outputs}}
+          values: ${{steps.meta.outputs}}
         run: |
-          echo "Hello"
+          echo "Hello" 
+          echo $values
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
