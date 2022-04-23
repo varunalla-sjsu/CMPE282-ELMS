@@ -108,6 +108,6 @@ jobs:
           IMAGE_NAME: ${{steps.shainput.outputs.sha_short}}
         run: |
           cd backend/elms-backend
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_NAME .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_NAME
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_NAME .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_NAME
           
