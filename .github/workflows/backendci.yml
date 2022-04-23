@@ -91,7 +91,7 @@ jobs:
       - name: print name
         id: echometa
         env:
-          values: ${{steps.meta.outputs}}
+          values: ${{steps.meta.outputs.tags}}
         run: |
           echo "Hello" 
           echo $values
