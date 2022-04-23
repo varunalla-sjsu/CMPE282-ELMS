@@ -93,7 +93,7 @@ jobs:
         env:
           values:${{steps.meta.outputs}}
         run: |
-          echo $values
+          echo "Hello"
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
