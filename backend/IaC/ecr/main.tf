@@ -17,7 +17,7 @@ provider "aws" {
 }
 resource "aws_ecr_repository" "elms-repository" {
   name                 = "elms-repository"
-  image_tag_mutability = "IMMUTABLE"
+  image_tag_mutability = "MUTABLE"
 }
 
 resource "aws_ecr_repository_policy" "aws_ecr_repository" {
