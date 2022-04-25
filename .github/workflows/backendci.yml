@@ -129,6 +129,6 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       - name: Update ECS fargate service to pull the new image
         run: |
-          aws ecs update-service --cluster elms-cluster —service elms-service --force-new-deployment 
+          aws ecs update-service --cluster elms-cluster --service elms-service --force-new-deployment 
 
           
