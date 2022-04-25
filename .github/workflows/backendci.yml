@@ -111,8 +111,8 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY
   updatefargate:
-    needs: createrepo
-    name: Build Docker Image
+    needs: build
+    name: Update ECS Fargate
     runs-on: ubuntu-latest
     env:
       working-directory: "./backend/elms-backend"
