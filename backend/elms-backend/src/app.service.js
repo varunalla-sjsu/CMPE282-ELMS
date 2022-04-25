@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello() {
-    return 'Hello World from docker ecr version2 updated pipeline!';
+  apiVersion() {
+    return 'Api Version 1.0';
   }
 }
