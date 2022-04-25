@@ -3,6 +3,6 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   getHello() {
-    return 'Hello World from docker ecr version1!';
+    return 'Hello World from docker ecr version2 updated pipeline!';
   }
 }
