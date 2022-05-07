@@ -7,7 +7,7 @@ export class AppService {
   constructor(private prisma: PrismaService) {}
   getAPIVersion(): ApiStatus {
     return {
-      version: '0.1',
+      version: '0.1.2',
       name: 'ELMS API',
       status: 'UP',
     };
