@@ -6,7 +6,7 @@ export class AppService {
   getAPIVersion(): ApiStatus {
     return {
       version: '0.1',
-      name: 'HMS API',
+      name: 'ELMS API',
       status: 'UP',
     };
   }
