@@ -8,9 +8,9 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN yarn install
-
 COPY . .
+
+RUN yarn install
 
 CMD ["yarn", "start"]
 
