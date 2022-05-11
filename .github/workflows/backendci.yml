@@ -20,7 +20,6 @@ jobs:
   # This workflow contains a single job called "build"
   createrepo:
     name: Create AWS ECR repository
-    needs: buildfrontend
     runs-on: ubuntu-latest
     defaults:
       run:
