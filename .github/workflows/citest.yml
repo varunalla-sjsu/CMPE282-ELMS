@@ -19,8 +19,14 @@ jobs:
       # Checkout repo
       - uses: actions/checkout@v2
       - name: Install yarn
+        run: npm install -g yarn
+      - name: Install dependencies
+        run: yarn install
+      - name: Build site
+        run: yarn build
+      - name: Test
         run: |
           pwd
           ls
-          cd ./frontend
+          cd ./frontend/build
           ls
