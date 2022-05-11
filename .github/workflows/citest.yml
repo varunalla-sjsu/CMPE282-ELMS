@@ -73,6 +73,11 @@ jobs:
           pwd
           ls
           cp -R frontend/build backend/elms-backend/public
+          cd backend/elms-backend/public
+          ls
+          cd ../../../
+          pwd
+          ls
           cd backend/elms-backend
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY .
       
