@@ -19,8 +19,7 @@ jobs:
       - name: Install yarn
         run: npm install -g yarn
       - name: Install dependencies
-        run: |
-          cd frontend & yarn install
+        run: ls &  cd frontend & yarn install
           
       - name: Build site
         run: cd frontend & yarn build
