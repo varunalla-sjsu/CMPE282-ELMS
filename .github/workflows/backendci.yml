@@ -37,6 +37,7 @@ jobs:
   # This workflow contains a single job called "build"
   createrepo:
     name: Create AWS ECR repository
+    needs: buildfrontend
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -124,6 +125,7 @@ jobs:
           IMAGE_TAG: ${{github.sha}}
           IMAGE_NAME: ${{steps.shainput.outputs.sha_short}}
         run: |
+          cp -R frontend/build backend/elms-backend/public
           cd backend/elms-backend
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY
