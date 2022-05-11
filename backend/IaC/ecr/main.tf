@@ -2,16 +2,22 @@ terraform {
   required_providers {
     aws = {
       version = "~> 3.27"
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
     }
+  }
+  backend "s3" {
+    bucket  = "elmsterraform"
+    key     = "ecr-state/states"
+    region  = "us-west-1"
+    encrypt = true
   }
 }
 provider "aws" {
-    region = "us-west-1"   
+  region = "us-west-1"
 }
 resource "aws_ecr_repository" "elms-repository" {
   name                 = "elms-repository"
-  image_tag_mutability = "IMMUTABLE"
+  image_tag_mutability = "MUTABLE"
 }
 
 resource "aws_ecr_repository_policy" "aws_ecr_repository" {
