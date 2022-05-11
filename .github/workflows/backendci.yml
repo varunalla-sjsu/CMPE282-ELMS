@@ -125,7 +125,8 @@ jobs:
           IMAGE_TAG: ${{github.sha}}
           IMAGE_NAME: ${{steps.shainput.outputs.sha_short}}
         run: |
-          cp -R frontend/build backend/elms-backend/public
+          pwd
+          cp -R ./frontend/build ./backend/elms-backend/public
           cd backend/elms-backend
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY
