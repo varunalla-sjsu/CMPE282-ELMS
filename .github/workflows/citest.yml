@@ -20,15 +20,15 @@ jobs:
         run: npm install -g yarn
       - name: Install dependencies
         run: |
-          cd ./frontend & yarn install
+          cd frontend & yarn install
           
       - name: Build site
-        run: cd ./frontend & yarn build
+        run: cd frontend & yarn build
       - name: Test
         run: |
           pwd
           ls
-          cd ./frontend/build
+          cd frontend/build
           ls
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
