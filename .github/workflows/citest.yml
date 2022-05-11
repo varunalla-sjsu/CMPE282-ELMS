@@ -26,7 +26,9 @@ jobs:
             yarn install
           
       - name: Build site
-        run: cd frontend & yarn build
+        run: |
+         cd frontend 
+         yarn build
       - name: Test check
         run: |
           pwd
@@ -69,7 +71,8 @@ jobs:
           IMAGE_NAME: ${{steps.shainput.outputs.sha_short}}
         run: |
           pwd
-          cp -R ./frontend/build ./backend/elms-backend/public
+          ls
+          cp -R frontend/build backend/elms-backend/public
           cd backend/elms-backend
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY .
       
