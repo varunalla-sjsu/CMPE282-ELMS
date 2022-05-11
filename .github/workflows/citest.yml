@@ -1,0 +1,28 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy ELMS backend to ECR
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ci-testing]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+env:
+jobs:
+  buildfrontend:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: "./backend/elms-backend"
+    steps:
+      # Checkout repo
+      - uses: actions/checkout@v2
+      - name: Install yarn
+        run: |
+          pwd
+          ls
+          cd ./frontend
+          ls
+          
