@@ -10,9 +10,8 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-env:
 jobs:
-  buildfrontend:
+  testjob:
     runs-on: ubuntu-latest
     env:
       working-directory: "./backend/elms-backend"
@@ -25,4 +24,3 @@ jobs:
           ls
           cd ./frontend
           ls
-          
