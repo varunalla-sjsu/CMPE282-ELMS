@@ -45,12 +45,13 @@ model dept_manager {
   @@index([dept_no], map: "dept_no")
 }
 
-model user{
-  emp_email    String           @id
-  emp_no Int @unique
-  emp_role employees_role @default(EMPLOYEE)
-  employee employees @relation(fields: [emp_no], references: [emp_no], onDelete: Cascade, onUpdate: NoAction)
+model user {
+  emp_email String         @id
+  emp_no    Int            @unique
+  emp_role  employees_role @default(EMPLOYEE)
+  employee  employees      @relation(fields: [emp_no], references: [emp_no], onDelete: Cascade, onUpdate: NoAction)
 }
+
 model employees {
   emp_no       Int              @id
   birth_date   DateTime         @db.Date
@@ -60,10 +61,10 @@ model employees {
   hire_date    DateTime         @db.Date
   dept_emp     dept_emp[]
   dept_manager dept_manager[]
+  loans        loans[]
   salaries     salaries[]
   titles       titles[]
-  loans        loans[]
-  user user[]
+  user         user?
 }
 
 model salaries {
@@ -86,25 +87,6 @@ model titles {
   @@id([emp_no, title, from_date])
 }
 
-enum employees_gender {
-  M
-  F
-}
-
-enum employees_role {
-  ADMIN
-  MANAGER
-  EMPLOYEE
-}
-
-
-enum loan_status {
-  REQUESTED
-  APPROVED
-  REJECTED
-  COMPLETED
-}
-
 model loans {
   loanid             Int         @id
   emp_no             Int
@@ -116,4 +98,23 @@ model loans {
   status             loan_status @default(REQUESTED)
   employees          employees   @relation(fields: [emp_no], references: [emp_no], onDelete: Cascade, onUpdate: NoAction)
 
+  @@index([emp_no], map: "loans_emp_no_fkey")
+}
+
+enum employees_gender {
+  M
+  F
+}
+
+enum employees_role {
+  ADMIN
+  MANAGER
+  EMPLOYEE
+}
+
+enum loan_status {
+  REQUESTED
+  APPROVED
+  REJECTED
+  COMPLETED
 }
