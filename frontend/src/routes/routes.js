@@ -8,6 +8,7 @@ import useAuth from "../helpers/useAuth";
 // Path
 //const Home = lazy(() => import('../pages/Home'));
 const Login = lazy(() => import('../pages/Auth/Login'))
+const Employees = lazy(() => import('../pages/Employees'))
 
 /**
  * @component Path 
@@ -25,6 +26,7 @@ export const Path = () => {
    */
   const elements = (auth) => [
     { path: "/", element: <Login />, index: true },
+    { path: "/empdashboard", element: <Employees />, index: true },
     { path: "*", element: <h1>Not Found!</h1> }
 ]
 

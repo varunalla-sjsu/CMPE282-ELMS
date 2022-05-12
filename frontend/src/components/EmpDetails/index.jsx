@@ -1,0 +1,1 @@
+export { EmpDetails as default } from './EmpDetails'
