@@ -68,10 +68,27 @@ jobs:
     needs: createrepo
     name: Build Docker Image
     runs-on: ubuntu-latest
-    env:
-      working-directory: "./backend/elms-backend"
     steps:
       - uses: actions/checkout@v3
+      - name: Install yarn
+        run: npm install -g yarn
+      - name: Install dependencies check
+        run: |
+            ls 
+            cd frontend 
+            ls 
+            yarn install
+          
+      - name: Build site
+        run: |
+         cd frontend 
+         yarn build
+      - name: Test check
+        run: |
+          pwd
+          ls
+          cd frontend/build
+          ls
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -107,6 +124,14 @@ jobs:
           IMAGE_TAG: ${{github.sha}}
           IMAGE_NAME: ${{steps.shainput.outputs.sha_short}}
         run: |
+          pwd
+          ls
+          cp -R frontend/build backend/elms-backend/public
+          cd backend/elms-backend/public
+          ls
+          cd ../../../
+          pwd
+          ls
           cd backend/elms-backend
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY
