@@ -45,6 +45,12 @@ model dept_manager {
   @@index([dept_no], map: "dept_no")
 }
 
+model user{
+  emp_email    String           @id
+  emp_no Int @unique
+  emp_role employees_role @default(EMPLOYEE)
+  employee employees @relation(fields: [emp_no], references: [emp_no], onDelete: Cascade, onUpdate: NoAction)
+}
 model employees {
   emp_no       Int              @id
   birth_date   DateTime         @db.Date
@@ -56,7 +62,8 @@ model employees {
   dept_manager dept_manager[]
   salaries     salaries[]
   titles       titles[]
-  loans loans[]
+  loans        loans[]
+  user user[]
 }
 
 model salaries {
@@ -83,6 +90,14 @@ enum employees_gender {
   M
   F
 }
+
+enum employees_role {
+  ADMIN
+  MANAGER
+  EMPLOYEE
+}
+
+
 enum loan_status {
   REQUESTED
   APPROVED
@@ -90,15 +105,15 @@ enum loan_status {
   COMPLETED
 }
 
-model loans{
-  loanid Int  @id
-  emp_no    Int
-  loan_amount Int
-  from_date DateTime  @db.Date
-  to_date   DateTime  @db.Date
-  paid_installments Int @default(0)
-  total_installments Int 
-  status loan_status @default(REQUESTED)
-  employees employees @relation(fields: [emp_no], references: [emp_no], onDelete: Cascade, onUpdate: NoAction)
+model loans {
+  loanid             Int         @id
+  emp_no             Int
+  loan_amount        Int
+  from_date          DateTime    @db.Date
+  to_date            DateTime    @db.Date
+  paid_installments  Int         @default(0)
+  total_installments Int
+  status             loan_status @default(REQUESTED)
+  employees          employees   @relation(fields: [emp_no], references: [emp_no], onDelete: Cascade, onUpdate: NoAction)
 
 }
