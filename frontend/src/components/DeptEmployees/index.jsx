@@ -1,0 +1,1 @@
+export { DeptEmployees as default } from './DeptEmployees'

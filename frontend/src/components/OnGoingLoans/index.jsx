@@ -1,0 +1,1 @@
+export { OnGoingLoans as default } from './OnGoingLoans'

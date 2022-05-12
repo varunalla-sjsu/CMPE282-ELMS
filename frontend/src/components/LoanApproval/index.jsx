@@ -1,0 +1,1 @@
+export { LoanApproval as default } from './LoanApproval'

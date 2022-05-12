@@ -8,6 +8,9 @@ import useAuth from "../helpers/useAuth";
 // Path
 //const Home = lazy(() => import('../pages/Home'));
 const Login = lazy(() => import('../pages/Auth/Login'))
+const Employees = lazy(() => import('../pages/Employees'))
+const Manager = lazy(() => import('../pages/Manager'))
+const Admin = lazy(() => import('../pages/Admin'))
 
 const AuthDash = () => {
   return (<>
@@ -32,6 +35,10 @@ export const Path = () => {
   const elements = (auth) => [
     { path: "/login", element: <Login />, index: true },
     { path: "/dashboard", element: auth.token ? <AuthDash /> : <Navigate to="/login" /> , index: true },
+    { path: "/", element: <Login />, index: true },
+    { path: "/empdashboard", element: <Employees />, index: true },
+    { path: "/managerdashboard", element: <Manager />, index: true },
+    { path: "/admin", element: <Admin />, index: true },
     { path: "*", element: <h1>Not Found!</h1> }
 ]
 
