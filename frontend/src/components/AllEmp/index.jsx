@@ -1,0 +1,1 @@
+export { AllEmp as default } from './AllEmp'
