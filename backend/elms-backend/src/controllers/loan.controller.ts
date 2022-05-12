@@ -6,10 +6,6 @@ import { loans as loansModel } from '.prisma/client';
 export class LoanController {
   constructor(private readonly loanService: LoanService) {}
 
-  @Get()
-  getAllLoans(): Promise<loansModel[]> {
-    return this.loanService.allLoans();
-  } 
 
   @Get('/:id')
   async getLoansById(@Param('id') id: string): Promise<loansModel> {
@@ -61,4 +57,49 @@ export class LoanController {
       });
   }
 
-}
+  @Get('/active/emp/:id/:page?/:pageSize?')
+  async getActiveLoansForEmployee(@Param('id') id: string,@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<loansModel[]> {
+
+  if( pageSize === undefined){
+      pageSize= "20";
+  }
+
+  if( page === undefined){
+      page ="1";
+  }
+
+  const skip = (Number(page)-1) * Number(pageSize);
+    return this.loanService.loansByEmpId({
+        where: {
+              emp_no: Number(id),
+              status : "APPROVED"
+            
+        },
+        skip: skip,
+        take: Number(pageSize)
+      });
+  }
+
+  @Get('/all/active/:page?/:pageSize?')
+  async getAllActiveLoans(@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<loansModel[]> {
+
+
+    if( pageSize === undefined){
+        pageSize= "20";
+    }
+  
+    if( page === undefined){
+        page ="1";
+    }
+  
+    const skip = (Number(page)-1) * Number(pageSize);
+      return this.loanService.allActiveLoans({
+          where: {
+                status : "APPROVED"
+              
+          },
+          skip: skip,
+          take: Number(pageSize)
+        });
+    }
+  } 
