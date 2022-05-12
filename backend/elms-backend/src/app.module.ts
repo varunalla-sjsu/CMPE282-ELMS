@@ -11,6 +11,8 @@ import { AuthController } from './controllers/auth.controller';
 import { ConfigModule } from '@nestjs/config';
 
 import { join } from 'path';
+import { LoanController } from './controllers/loan.controller';
+import { LoanService } from './services/loan.service';
 @Module({
   imports: [ ServeStaticModule.forRoot({
     rootPath: join(__dirname, '..', 'public'),
@@ -19,7 +21,7 @@ import { join } from 'path';
   PassportModule.register({ defaultStrategy: 'jwt' }),
   ConfigModule.forRoot(),
 ],
-  controllers: [AppController, AuthController],
-  providers: [PrismaService, AppService, AuthService, AuthConfig, JwtStrategy],
+  controllers: [AppController, AuthController, LoanController],
+  providers: [PrismaService, AppService, AuthService, AuthConfig, JwtStrategy, LoanService],
 })
 export class AppModule {}
