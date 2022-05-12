@@ -80,6 +80,8 @@ jobs:
             yarn install
           
       - name: Build site
+        env:
+          CI: false
         run: |
          cd frontend 
          yarn build
