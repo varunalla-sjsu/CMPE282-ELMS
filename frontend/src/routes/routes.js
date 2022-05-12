@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
 import { AppShell, Footer, useMantineTheme } from '@mantine/core';
 import SuspenseSpinner from "../components/SuspenseFallback";
 import TopBar from "../components/TopBar";
@@ -8,6 +8,12 @@ import useAuth from "../helpers/useAuth";
 // Path
 //const Home = lazy(() => import('../pages/Home'));
 const Login = lazy(() => import('../pages/Auth/Login'))
+
+const AuthDash = () => {
+  return (<>
+  Hello
+  </>)
+}
 
 /**
  * @component Path 
@@ -24,7 +30,8 @@ export const Path = () => {
    * in element: pass lazy elements for code splitting for code to load async.
    */
   const elements = (auth) => [
-    { path: "/", element: <Login />, index: true },
+    { path: "/login", element: <Login />, index: true },
+    { path: "/dashboard", element: auth.token ? <AuthDash /> : <Navigate to="/login" /> , index: true },
     { path: "*", element: <h1>Not Found!</h1> }
 ]
 
