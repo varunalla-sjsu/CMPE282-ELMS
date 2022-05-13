@@ -19,7 +19,7 @@ export class DepartmentsService {
     });
   }
 
-  async employeesByDeptId(params: {
+  /*async employeesByDeptId(params: {
     where?: Prisma.departmentsWhereInput;
     skip?: number;
     take?: number;
@@ -51,7 +51,30 @@ export class DepartmentsService {
       console.log(dept);
      return dept[0].dept_emp;
 
-    }
+    } */
 
+
+    async employeesByDeptId(params: {
+        where?: Prisma.dept_empWhereInput;
+        skip?: number;
+        take?: number;
+        }): Promise<dept_emp[]> {
+          const { where ,skip,take} = params;
+          console.log('skip : ' + skip);
+          console.log('take : ' + take);
+          const dept = await this.prisma.dept_emp.findMany({
+            skip,
+            take,
+            where,
+           include:{
+               departments:true,
+               employees:true
+           }
+          });
+    
+         return dept;
+    
+        }
+    
 
 }
