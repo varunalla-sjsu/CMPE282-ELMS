@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { createStyles, Card, Container, Text, Collapse, Table, Button } from "@mantine/core";
+import { createStyles, Card, Container, Text,Pagination, Collapse, Table, Button } from "@mantine/core";
+import {getLoanRequestsByDept,approveLoan} from "../../services/ManagerService" 
+import { useQuery } from "react-query";
+
 
 const useStyles = createStyles((theme) => ({
     card: {
@@ -25,16 +28,23 @@ const useStyles = createStyles((theme) => ({
 export function LoanApproval() {
     const { classes } = useStyles();
     const [opened, setOpen] = useState(false);
+    const [activePage,setActivePage] = useState(1);
+
+    const { data } = useQuery(["getLoanRequestsByDept", activePage],() => getLoanRequestsByDept(activePage), { keepPreviousData : true });
+    console.log(data)
     const elements = [
         { id: 6, amount: 4000, tenure: 12 },
       ];
-
-    const rows = elements.map((element) => (
-        <tr key={element.name}>
-          <td>{element.id}</td>
-          <td>${element.amount}</td>
-          <td>{element.tenure}</td>
-          <td><Button color="teal">Accept</Button> <Button color="red" >Reject</Button></td>
+    
+    const approve=(id) =>{
+      approveLoan(id)
+    }
+    const rows = data.data.map((element) => (
+        <tr key={element.loanid}>
+          <td>{element.loanid}</td>
+          <td>${element.loan_amount}</td>
+          <td>{element.total_installments/12}</td>
+          <td><Button color="teal" onClick={(e)=>{approve(element.id)}}>Accept</Button> <Button color="red" >Reject</Button></td>
         </tr>
       ));
 
@@ -55,6 +65,8 @@ export function LoanApproval() {
                     <tbody>{rows}</tbody>
                 </Table>
             </Card>
+            <Pagination size="sm" page={activePage} onChange={setActivePage} total={Math.ceil(data.data.total / 20)} withEdges />
+
         </Container>
       );
 }
