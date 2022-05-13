@@ -56,7 +56,7 @@ export function LoanDetails() {
                 </Table>
             </Card>
             
-            <Pagination size="lg" page={activePage} onChange={setPage} total={Math.floor(data.data.total / 20)} withEdges />
+            <Pagination size="lg" page={activePage} onChange={setPage} total={Math.ceil(data.data.total / 20)} withEdges />
         </Container>
       );
 }
