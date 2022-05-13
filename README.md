@@ -23,26 +23,24 @@
         1. EMPLOYEE
         * Login
         * Request for a loan
-        * Manage their profile
+        * View their profile
         * View loan details
-        * View all past loans
+        * View all loans
         
         2. MANAGER
         * Login
-        * Request for a loan
         * Approve/Reject loans for an employee
-        * Manage their profile
-        * View all employees
-        * View loan details
+        * View their profile
+        * View all employees of department
+        * View all departments
+	* View all loans of that department
         
         3. ADMIN
         * Login
-        * Request for a loan
         * Preclose a loan
-        * Manage their profile
+        * View their profile
         * View all employees
-        * View loan details
-        * Manage all loans
+        * View all loans
 
 
 ## Architect Diagram:
@@ -78,8 +76,14 @@ We maintained a project board on trello and had bi-weekly sprint where we met da
       * CI/CD : GitHub Actions, Jenkins
       * Other Cloud Services : ALB, EC2 Fargate, Amazon ECR , Terraform
       
-    
+ 
+ ### Database Design
+ 
+    ![DBDesignCMPe282](https://user-images.githubusercontent.com/90986401/168397125-c9dbaec6-3f13-4c06-8a9e-124b2a43b638.jpeg)
+
  ### AWS Configuration Screenshots
+ 
+ 
 
 #### AWS Cognito
 
@@ -117,32 +121,46 @@ We maintained a project board on trello and had bi-weekly sprint where we met da
 
 #### Employee Dashboard
 
+<img width="1440" alt="Screen Shot 2022-05-13 at 2 51 49 PM" src="https://user-images.githubusercontent.com/90986401/168397152-a5ec108d-176d-46fd-8011-7a7ca790dcba.png">
+
+
 
 #### Loan Details
+<img width="1440" alt="Screen Shot 2022-05-13 at 2 53 10 PM" src="https://user-images.githubusercontent.com/90986401/168397171-a5272ec3-de3c-43ec-8dce-780ea2fb98dc.png">
 
 
 #### Request a loan
+<img width="1440" alt="Screen Shot 2022-05-13 at 2 52 29 PM" src="https://user-images.githubusercontent.com/90986401/168397208-aba5d6be-0e0e-4d95-8bd2-d653bb3af149.png">
 
 
 #### View loans
+<img width="1440" alt="Screen Shot 2022-05-13 at 2 51 49 PM" src="https://user-images.githubusercontent.com/90986401/168397226-fb6382b2-0db7-4159-9127-15859303c631.png">
 
 
 #### Manager Dashboard
+<img width="1440" alt="Screen Shot 2022-05-13 at 2 49 46 PM" src="https://user-images.githubusercontent.com/90986401/168397251-acc99a70-fea3-48f8-8e22-e3e3a51b7aa1.png">
 
 
 #### Approve/Reject Loans
 
+<img width="1440" alt="Screen Shot 2022-05-13 at 2 54 00 PM" src="https://user-images.githubusercontent.com/90986401/168397259-d63ae243-4e12-4ec7-a9dc-fa2ada5142db.png">
 
 #### View Employees
+<img width="1440" alt="Screen Shot 2022-05-13 at 2 49 46 PM" src="https://user-images.githubusercontent.com/90986401/168397291-f62bb745-49bc-47ec-b711-ff29f611ef2a.png">
+<img width="1440" alt="Screen Shot 2022-05-13 at 2 48 10 PM" src="https://user-images.githubusercontent.com/90986401/168397296-9b8e118a-6e0d-485c-b531-cfb8ebc069da.png">
 
 
 #### Admin Dashboard
 
+<img width="1440" alt="Screen Shot 2022-05-13 at 2 48 28 PM" src="https://user-images.githubusercontent.com/90986401/168397352-6d92e388-c4e8-417b-920e-9d7120749698.png">
+
 
 #### Preclose the loans
+<img width="1440" alt="Screen Shot 2022-05-13 at 3 03 49 PM" src="https://user-images.githubusercontent.com/90986401/168397361-9598312f-1d01-454f-8bfe-7f1a777a3b95.png">
 
+### View Profile
 
-#### View Employees
+<img width="1440" alt="Screen Shot 2022-05-13 at 2 49 06 PM" src="https://user-images.githubusercontent.com/90986401/168397395-bf507e3d-df11-4d14-a370-5d9f082c6524.png">
 
 
 ###### Backend APIs Postman collection link
