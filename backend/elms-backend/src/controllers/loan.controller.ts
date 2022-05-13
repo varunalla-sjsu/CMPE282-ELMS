@@ -1,10 +1,12 @@
 import { Controller, Get, Param,Post,Body, Query } from '@nestjs/common';
 import { LoanService } from 'src/services/loan.service';
-import { loans as loansModel } from '.prisma/client';
+import { loans, loans as loansModel } from '.prisma/client';
+import { LoanRequest } from 'src/models/LoanRequest';
+import { DepartmentsService } from 'src/services/departments.service';
 
 @Controller('loans')
 export class LoanController {
-  constructor(private readonly loanService: LoanService) {}
+  constructor(private readonly loanService: LoanService, private readonly deptService : DepartmentsService) {}
 
 
   @Get('/:id')
@@ -101,5 +103,36 @@ export class LoanController {
           skip: skip,
           take: Number(pageSize)
         });
+    }
+
+
+    @Post()
+    async createLoan(
+        @Body() loanData: LoanRequest,
+    ): Promise<loans> {
+        const { loan_amount, from_date, to_date, total_installments} = loanData;
+
+        const emp_no = 10003;
+        const dept = await this.deptService.deptByEmpId({
+            where:{
+                emp_no : emp_no
+            }
+        })
+
+        console.log(dept.dept_no);
+
+        return await this.loanService.createLoan({
+            loan_amount,
+            from_date,
+            to_date,
+            total_installments,
+            employees:{
+                connect :{emp_no : emp_no}
+            },
+            department :{
+                connect : {dept_no : dept.dept_no}
+            }
+        });
+
     }
   } 

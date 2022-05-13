@@ -90,4 +90,10 @@ export class LoanService {
           });
         }
 
+
+        async createLoan(data: Prisma.loansCreateInput): Promise<loans> {
+            return this.prisma.loans.create({
+                data,
+            });
+        }
 }
