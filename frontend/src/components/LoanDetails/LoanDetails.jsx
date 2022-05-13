@@ -23,14 +23,10 @@ const useStyles = createStyles((theme) => ({
 export function LoanDetails() {
     const { classes } = useStyles();
     const [activePage, setPage] = useState(1);
-
-    const { data } = useQuery("getLoansByEmpId", getLoansByEmpId);
-
-
-
+    const { data } = useQuery(["getLoansByEmpId", activePage],() => getLoansByEmpId(activePage), { keepPreviousData : true });
     
 
-    const rows = data.data.map((element) => (
+    const rows = data.data.data.map((element) => (
         <tr key={element.loanid}>
           <td>{element.loanid}</td>
           <td>{element.loan_amount}</td>
@@ -47,19 +43,20 @@ export function LoanDetails() {
             <Card withBorder radius="md" className={classes.card} >
                 <Text pb="40"><b>Loan Details</b></Text>
                 <Table>
-                <thead>
-                        <tr>
-                        <th>ID</th>
-                        <th>Amount</th>
-                        <th>Months Remaining</th>
-                        <th>Tenure</th>
-                        <th>Status</th>
-                        </tr>
+                    <thead>
+                      <tr>
+                      <th>ID</th>
+                      <th>Amount</th>
+                      <th>Months Remaining</th>
+                      <th>Tenure</th>
+                      <th>Status</th>
+                      </tr>
                     </thead>
                     <tbody>{rows}</tbody>
                 </Table>
             </Card>
-            <Pagination size="sm" page={activePage} onChange={setPage} total={3} withEdges />
+            
+            <Pagination size="lg" page={activePage} onChange={setPage} total={Math.floor(data.data.total / 20)} withEdges />
         </Container>
       );
 }

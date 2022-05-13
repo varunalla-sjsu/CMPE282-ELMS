@@ -1,8 +1,8 @@
 import axiosClient from "./axios"
 
-export function getLoansByEmpId(){
+export function getLoansByEmpId(page){
     return new Promise((resolve, reject) => {
-        axiosClient.get(`/api/loans/emp/10002?page=1&pageSize=20`).then((res) => {
+        axiosClient.get(`/api/loans/by/empId?page=${page}&pageSize=20`).then((res) => {
             resolve(res);
         }).catch((err) => reject(err))
     })
