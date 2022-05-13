@@ -47,7 +47,7 @@ export function DeptEmployees() {
           <td>{element.emp_no}</td>
           <td>{element.employees.first_name} {element.employees.last_name}</td>
           <td>{element.title}</td>
-          <td>{element.employees.hire_date}</td>
+          <td>{element.employees.hire_date.split('T')[0]}</td>
         </tr>
       ));
 
