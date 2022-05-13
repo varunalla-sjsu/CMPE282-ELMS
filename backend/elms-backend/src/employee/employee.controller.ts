@@ -9,7 +9,7 @@ import { EmployeeService } from './employee.service';
 @Controller('employee')
 export class EmployeeController {
   constructor(private employeeService: EmployeeService) {}
-  @Roles(employees_role.ADMIN, employees_role.EMPLOYEE)
+  @Roles(employees_role.ADMIN, employees_role.EMPLOYEE, employees_role.MANAGER)
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('profile')
   async getEmployee(@Req() req): Promise<EmployeeResponse> {

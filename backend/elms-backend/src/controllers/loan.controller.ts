@@ -1,8 +1,13 @@
-import { Controller, Get, Param, Post, Body, Query, Put } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Query, Put, UseGuards, Req } from '@nestjs/common';
 import { LoanService } from 'src/services/loan.service';
 import { loans, loans as loansModel, loan_status } from '.prisma/client';
 import { LoanRequest } from 'src/models/LoanRequest';
 import { DepartmentsService } from 'src/services/departments.service';
+import { Roles } from 'src/role.decorator';
+import { employees_role } from '@prisma/client';
+import { AuthGuard } from '@nestjs/passport';
+import { RoleGuard } from 'src/role.guard';
+import { LoansPaginatedResponse } from 'src/models/LoansPaginatedResponse';
 
 @Controller('loans')
 export class LoanController {
@@ -12,10 +17,11 @@ export class LoanController {
   async getLoansById(@Param('id') id: string): Promise<loansModel> {
     return this.loanService.loansByLoanId({ loanid: Number(id) });
   }
-
+  @Roles(employees_role.EMPLOYEE)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('/by/empId/:page?/:pageSize?')
-  async getLoansByEmpId(@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
-    const emp_no = 10002;
+  async getLoansByEmpId(@Req() req, @Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<LoansPaginatedResponse> {
+    const emp_no = req.user.emp_no;
 
     if (pageSize === undefined) {
       pageSize = '20';
@@ -40,9 +46,9 @@ export class LoanController {
       },
     });
 
-    var response = {
+    const response: LoansPaginatedResponse = {
       data: loans,
-      total: totalCount,
+      total: Number(totalCount),
     };
 
     return response;
@@ -73,17 +79,18 @@ export class LoanController {
       },
     });
 
-    var response = {
+    const response = {
       data: loandata,
       total: totalCount,
     };
 
     return response;
   }
-
+  @Roles(employees_role.ADMIN, employees_role.EMPLOYEE)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('/active/emp/:page?/:pageSize?')
-  async getActiveLoansForEmployee(@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
-    const emp_no = 10002;
+  async getActiveLoansForEmployee(@Req() req, @Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<LoansPaginatedResponse> {
+    const emp_no = req.user.emp_no;
 
     if (pageSize === undefined) {
       pageSize = '20';
@@ -110,9 +117,9 @@ export class LoanController {
       },
     });
 
-    var response = {
+    const response = {
       data: loandata,
-      total: totalCount,
+      total: Number(totalCount),
     };
     return response;
   }
@@ -148,14 +155,15 @@ export class LoanController {
     };
     return response;
   }
-
+  @Roles(employees_role.EMPLOYEE)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Post()
-  async createLoan(@Body() loanData: LoanRequest): Promise<loans> {
+  async createLoan(@Req() req, @Body() loanData: LoanRequest): Promise<loans> {
+    const emp_no = req.user.emp_no;
     const { loan_amount, total_installments } = loanData;
     const from_date = new Date();
     const to_date = this.addMonths(total_installments, new Date());
 
-    const emp_no = 10003;
     const dept = await this.deptService.deptByEmpId({
       where: {
         emp_no: emp_no,
