@@ -86,21 +86,46 @@ We maintained a project board on trello and had bi-weekly sprint where we met da
  ### AWS Configuration Screenshots
  
  
-
 #### AWS Cognito
 
+![image](https://user-images.githubusercontent.com/90986401/168399853-b65e920b-f024-48cd-8965-24ce19fe4c90.png)
+
+![image](https://user-images.githubusercontent.com/90986401/168399876-6a43b065-eafd-46c3-aa16-906acc944284.png)
 
 #### AWS S3
 
+![image](https://user-images.githubusercontent.com/90986401/168399817-ec7f4bd4-7fa2-4252-b13b-6624b61354f5.png)
 
-#### Terraform
+#### AWS ECS
+
+![image](https://user-images.githubusercontent.com/90986401/168399607-820ae5cd-5327-4bab-af4f-fe03c329053c.png)
+
+![image](https://user-images.githubusercontent.com/90986401/168399619-95d28825-5daf-41db-9b7a-93bab01e572f.png)
 
 
 #### AWS Certificate Manager 
 
+![image](https://user-images.githubusercontent.com/90986401/168399467-7a0a947b-a245-4ee3-9e64-c904470562cf.png)
+
+#### AWS RDS
+
+![image](https://user-images.githubusercontent.com/90986401/168399508-168779b9-179d-4056-834d-5e39bc44f502.png)
+
+### Application Loan Balancer
+
+![image](https://user-images.githubusercontent.com/90986401/168399542-d9e6367d-f6a2-4071-b545-f2f2cc2b8d2f.png)
+
+![image](https://user-images.githubusercontent.com/90986401/168399696-7beb9be3-949a-4646-9d4b-2d37b848e4ce.png)
+
+
+#### AWS EC2
+
+![image](https://user-images.githubusercontent.com/90986401/168399573-3e90d976-541c-4b7a-a719-2790ce4ecebd.png)
+
 
 #### AWS Route53
 
+![image](https://user-images.githubusercontent.com/90986401/168399665-20f41cf1-4dc9-47a8-8567-1c5d62f47b23.png)
 
 ### Automate Deployment 
 
@@ -165,7 +190,9 @@ We maintained a project board on trello and had bi-weekly sprint where we met da
 <img width="1440" alt="Screen Shot 2022-05-13 at 2 49 06 PM" src="https://user-images.githubusercontent.com/90986401/168397395-bf507e3d-df11-4d14-a370-5d9f082c6524.png">
 
 
-###### Backend APIs Postman collection link
+###### Backend APIs
 
 https://www.getpostman.com/collections/5cace0e7e51d723410d8
+
+http://vcloudoc.com/swagger/#/
 
