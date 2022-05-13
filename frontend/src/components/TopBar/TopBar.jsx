@@ -1,5 +1,7 @@
 import React from 'react';
-import { createStyles, Header, Group } from '@mantine/core';
+import { createStyles, Header, Group, Button } from '@mantine/core';
+import useAuth from '../../helpers/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -44,7 +46,8 @@ const useStyles = createStyles((theme) => ({
 
 export function TopBar() {
   const { classes } = useStyles();
-  
+  const auth = useAuth();
+  const navigate = useNavigate();
   return (
     <Header height={56} className={classes.header}>
       <div className={classes.inner}>
@@ -56,6 +59,21 @@ export function TopBar() {
           <Group ml={50} spacing={5} className={classes.links}>
       <Group position="center">
       {/* Implementing top bar here */}
+      {
+        auth ?
+      <Button onClick={() => {
+        localStorage.removeItem("user")
+        navigate('/');
+      }}>
+        Logout
+      </Button>
+      :
+      <Button onClick={() => {
+        navigate('/');
+      }}>
+        Login
+      </Button>
+}
     </Group>
           </Group>
         </Group>

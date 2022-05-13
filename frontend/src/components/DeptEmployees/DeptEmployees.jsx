@@ -35,13 +35,7 @@ export function DeptEmployees() {
     const { classes } = useStyles();
     const [activePage, setPage] = useState(1);
     const { data } = useQuery(["getDeptEmployees", activePage],() => getDeptEmployees(activePage), { keepPreviousData : true });
-    // const elements = [
-    //     { id: 1, first_name: 'Jane', last_name: 'Doe', title: 'Accountant', hire_date: '5-12-2022' },
-    //     { id: 2, first_name: 'Jane', last_name: 'Doe', title: 'Accountant', hire_date: '5-12-2022' },
-    //     { id: 3, first_name: 'Jane', last_name: 'Doe', title: 'Accountant', hire_date: '5-12-2022' },
-    //     { id: 4, first_name: 'Jane', last_name: 'Doe', title: 'Accountant', hire_date: '5-12-2022' },
-    //   ];
-
+    
     const rows = data.data.map((element) => (
         <tr key={element.emp_no}>
           <td>{element.emp_no}</td>
@@ -50,7 +44,7 @@ export function DeptEmployees() {
           <td>{element.employees.hire_date.split('T')[0]}</td>
         </tr>
       ));
-
+      
     return (
         <Container>
 
@@ -67,7 +61,7 @@ export function DeptEmployees() {
                     <tbody>{rows}</tbody>
                 </Table>
             </Card>
-            <Pagination size="sm" page={activePage} onChange={setPage} total={Math.ceil(data.data.total / 20)} withEdges />
+            <Pagination size="lg" page={activePage} onChange={setPage} siblings={3}  total={Math.ceil(data.total/ 20)} withEdges />
         </Container>
       );
 }

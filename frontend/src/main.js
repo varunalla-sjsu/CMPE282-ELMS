@@ -6,6 +6,7 @@ import {
     QueryClient,
     QueryClientProvider,
   } from "react-query";
+import { NotificationsProvider } from "@mantine/notifications";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -19,11 +20,13 @@ export default function Main(){
     return(
 
         <MantineProvider>
+          <NotificationsProvider>
             <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <Path />
             </BrowserRouter>
             </QueryClientProvider>
+            </NotificationsProvider>
         </MantineProvider>
     )
 

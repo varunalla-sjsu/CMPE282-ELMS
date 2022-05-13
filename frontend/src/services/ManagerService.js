@@ -22,3 +22,16 @@ export function approveLoan(loanId){
         }).catch((err) => reject(err));
     })
 }
+
+export function rejectLoan(loanId){
+
+    return new Promise((resolve, reject) => {
+        let user= useAuth();
+        axiosClient.put(`/api/loans/reject/${loanId}`,{
+            headers: {
+            'Authorization': `Bearer ${user.token}`
+        }}).then((res) => {
+            resolve(res.data);
+        }).catch((err) => reject(err));
+    })
+}
