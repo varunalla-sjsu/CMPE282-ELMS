@@ -162,9 +162,10 @@ export class LoanController {
     };
     return response;
   }
-
+  @Roles(employees_role.EMPLOYEE)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('/all/active/:page?/:pageSize?')
-  async getAllActiveLoans(@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
+  async getAllActiveLoans(@Req() req,@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
     if (pageSize === undefined) {
       pageSize = '20';
     }
@@ -177,6 +178,7 @@ export class LoanController {
     const loandata = await this.loanService.allActiveLoans({
       where: {
         status: 'APPROVED',
+        emp_no: req.user.emp_no,
       },
       skip: skip,
       take: Number(pageSize),
