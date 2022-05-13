@@ -91,4 +91,16 @@ export class DepartmentsService {
           return deptEmpt[0];
         }
 
+        async deptEmpCountByCondition(params: {
+          where?: Prisma.dept_empWhereInput;
+          }): Promise<Number> {
+            const { where } = params;
+           const deptEmpCount =  await this.prisma.dept_emp.count({
+              where,
+          
+            });
+
+            return deptEmpCount;
+          }
+
 }
