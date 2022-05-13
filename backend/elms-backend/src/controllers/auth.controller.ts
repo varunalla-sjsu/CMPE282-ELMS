@@ -1,19 +1,14 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../services/auth.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
+  @UseGuards(AuthGuard('local'))
   @Post('login')
-  async login(
-    @Body() authenticateRequest: { email: string; password: string },
-  ) {
-    try {
-      return await this.authService.authenticateUser(authenticateRequest);
-    } catch (e) {
-      throw new BadRequestException(e.message);
-    }
+  async login(@Req() req) {
+    return req.user;
   }
 
   @Post('confirm')

@@ -1,13 +1,20 @@
-import { Controller, Get, HttpCode, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpException, HttpStatus, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { employees_role } from '@prisma/client';
 import { EmployeeResponse } from 'src/models/EmployeeResponse';
+import { Roles } from 'src/role.decorator';
+import { RoleGuard } from 'src/role.guard';
 import { EmployeeService } from './employee.service';
 
 @Controller('employee')
 export class EmployeeController {
   constructor(private employeeService: EmployeeService) {}
+  @Roles(employees_role.ADMIN, employees_role.EMPLOYEE)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('profile')
-  async getEmployee(): Promise<EmployeeResponse> {
-    const id = 10001;
+  async getEmployee(@Req() req): Promise<EmployeeResponse> {
+    console.log(req.user);
+    const id = req.user.emp_no;
     try {
       const employee = await this.employeeService.getEmployeeDetails(id);
       if (employee) {
@@ -27,10 +34,7 @@ export class EmployeeController {
       }
     } catch (err) {
       console.log(err);
-      throw new HttpException(
-        { msg: 'Error Fetching details' },
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new HttpException({ msg: 'Error Fetching details' }, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     throw new HttpException({ msg: 'No Such Employee' }, HttpStatus.NOT_FOUND);
   }
