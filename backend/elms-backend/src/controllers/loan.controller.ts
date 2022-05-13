@@ -14,8 +14,10 @@ export class LoanController {
     return this.loanService.loansByLoanId({ loanid: Number(id) });
   }  
 
-  @Get('/emp/:id/:page?/:pageSize?')
-  async getLoansByEmpId(@Param('id') id: string,@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<loansModel[]> {
+  @Get('/by/empId/:page?/:pageSize?')
+  async getLoansByEmpId(@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
+    
+    const emp_no = 10002;
 
     if( pageSize === undefined){
         pageSize= "20";
@@ -26,15 +28,30 @@ export class LoanController {
     }
   
     const skip = (Number(page)-1) * Number(pageSize);
-    return this.loanService.loansByEmpId({
+    const loans = await this.loanService.loansByEmpId({
         where: {
          
-              emp_no: Number(id),
+              emp_no: emp_no,
             
         },
         skip: skip,
         take: Number(pageSize)
       });
+
+      const totalCount = await this.loanService.loansCountByEmpId({
+        where: {
+         
+              emp_no: emp_no,
+            
+        }
+      });
+
+      var response = {
+        "data" : loans,
+        "total" : totalCount
+    };
+
+    return response;
   }
   
   @Get('/dept/:id/:page?/:pageSize?')
