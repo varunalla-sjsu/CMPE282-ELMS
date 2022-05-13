@@ -5,7 +5,7 @@ import { EmployeeService } from './employee.service';
 @Controller('employee')
 export class EmployeeController {
   constructor(private employeeService: EmployeeService) {}
-  @Get()
+  @Get('profile')
   async getEmployee(): Promise<EmployeeResponse> {
     const id = 10001;
     try {

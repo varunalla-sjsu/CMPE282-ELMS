@@ -10,6 +10,16 @@ export class EmployeeService {
       where: {},
     });
   }
+  getEmployeeByEmail(email: string) {
+    return this.prismaService.user.findFirst({
+      where: {
+        emp_email: email,
+      },
+      include: {
+        employee: true,
+      },
+    });
+  }
   getEmployeeDetails(emp_no: number) {
     return this.prismaService.employees.findFirst({
       where: {
