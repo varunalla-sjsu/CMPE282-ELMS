@@ -36,7 +36,8 @@ export function LoanDetails() {
         </tr>
       ));
 
-
+    console.log("total data is: ")
+    console.log(Math.floor(data.data.total / 20))
 
     return (
         <Container>
@@ -56,7 +57,7 @@ export function LoanDetails() {
                 </Table>
             </Card>
             
-            <Pagination size="lg" page={activePage} onChange={setPage} total={Math.ceil(data.data.total / 20)} withEdges />
+            <Pagination size="lg" page={activePage}  onChange={setPage} total={Math.ceil(data.data.total / 20)} withEdges />
         </Container>
       );
 }

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { createStyles, Card, Container, Text, Pagination, Table } from "@mantine/core";
+import {getDeptEmployees} from "../../services/deptService"
+import { useQuery } from "react-query";
 
 const useStyles = createStyles((theme) => ({
     card: {
@@ -32,22 +34,17 @@ const useStyles = createStyles((theme) => ({
 export function DeptEmployees() {
     const { classes } = useStyles();
     const [activePage, setPage] = useState(1);
-    const elements = [
-        { id: 1, first_name: 'Jane', last_name: 'Doe', title: 'Accountant', hire_date: '5-12-2022' },
-        { id: 2, first_name: 'Jane', last_name: 'Doe', title: 'Accountant', hire_date: '5-12-2022' },
-        { id: 3, first_name: 'Jane', last_name: 'Doe', title: 'Accountant', hire_date: '5-12-2022' },
-        { id: 4, first_name: 'Jane', last_name: 'Doe', title: 'Accountant', hire_date: '5-12-2022' },
-      ];
-
-    const rows = elements.map((element) => (
-        <tr key={element.name}>
-          <td>{element.id}</td>
-          <td>{element.first_name} {element.last_name}</td>
+    const { data } = useQuery(["getDeptEmployees", activePage],() => getDeptEmployees(activePage), { keepPreviousData : true });
+    
+    const rows = data.data.map((element) => (
+        <tr key={element.emp_no}>
+          <td>{element.emp_no}</td>
+          <td>{element.employees.first_name} {element.employees.last_name}</td>
           <td>{element.title}</td>
-          <td>{element.hire_date}</td>
+          <td>{element.employees.hire_date.split('T')[0]}</td>
         </tr>
       ));
-
+      
     return (
         <Container>
 
@@ -64,7 +61,7 @@ export function DeptEmployees() {
                     <tbody>{rows}</tbody>
                 </Table>
             </Card>
-            <Pagination size="sm" page={activePage} onChange={setPage} total={3} withEdges />
+            <Pagination size="lg" page={activePage} onChange={setPage} siblings={3}  total={Math.ceil(data.total/ 20)} withEdges />
         </Container>
       );
 }
