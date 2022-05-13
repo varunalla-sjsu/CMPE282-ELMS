@@ -79,7 +79,9 @@ We maintained a project board on trello and had bi-weekly sprint where we met da
  
  ### Database Design
  
-    ![DBDesignCMPe282](https://user-images.githubusercontent.com/90986401/168397125-c9dbaec6-3f13-4c06-8a9e-124b2a43b638.jpeg)
+
+![DBDesignCMPe282](https://user-images.githubusercontent.com/90986401/168397439-c346d308-03c4-46cc-bdf9-e50fb31ba40a.jpeg)
+
 
  ### AWS Configuration Screenshots
  
