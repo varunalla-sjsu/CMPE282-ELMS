@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosClient = axios.create();
-axiosClient.defaults.baseURL = '/';
+axiosClient.defaults.baseURL = 'http://localhost/';
 axiosClient.defaults.headers = {
   'Content-Type': 'application/json',
   Accept: 'application/json',

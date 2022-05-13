@@ -24,7 +24,11 @@ export class DepartmentsService {
       take,
       skip,
       include: {
-        dept_manager: true,
+        dept_manager: {
+          include: {
+            employees: true,
+          },
+        },
       },
     });
   }
