@@ -36,7 +36,6 @@ export function OnGoingLoans() {
           <td>{element.total_installments - element.paid_installments}</td>
           <td>{element.total_installments/12}</td>
           <td className={classes.green}>{element.status}</td>
-          <td><Button>Request</Button></td>
         </tr>
       ));
 
@@ -53,7 +52,6 @@ export function OnGoingLoans() {
                         <th>Months Remaining</th>
                         <th>Tenure</th>
                         <th>Status</th>
-                        <th>Request PreClose</th>
                         </tr>
                     </thead>
                     <tbody>{rows}</tbody>
