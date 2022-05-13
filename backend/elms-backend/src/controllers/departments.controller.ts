@@ -12,6 +12,32 @@ export class DepartmentsController {
   constructor(private readonly deptService: DepartmentsService, private readonly employeeService: EmployeeService) {}
   @Roles(employees_role.ADMIN)
   @UseGuards(AuthGuard('jwt'), RoleGuard)
+  @Get()
+  async getAllDepts(@Query('page') page?: string, @Query('pageSize') pageSize?: string) {
+    if (pageSize === undefined) {
+      pageSize = '20';
+    }
+
+    if (page === undefined) {
+      page = '1';
+    }
+    const skip = (Number(page) - 1) * Number(pageSize);
+    const employees = await this.deptService.allDept(
+      Number(skip),
+      Number(pageSize),
+    );
+    const totalCount = await this.deptService.allDeptCount({
+      where: {},
+    });
+
+    const response = {
+      data: employees,
+      total: totalCount,
+    };
+    return response;
+  }
+  @Roles(employees_role.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('/:id')
   async getDeptById(@Param('id') id: string): Promise<departmentsModel> {
     return this.deptService.deptByDeptId({ dept_no: id });
@@ -53,9 +79,7 @@ export class DepartmentsController {
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('/mydept/employees/:page?/:pageSize?')
   async getEmployeesForMyDept(@Req() req, @Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
-    const dept = await this.employeeService.getEmployeeDepartment(
-      req.user.emp_no,
-    );
+    const dept = await this.employeeService.getEmployeeDepartment(req.user.emp_no);
     if (pageSize === undefined) {
       pageSize = '20';
     }
