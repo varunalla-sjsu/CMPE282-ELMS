@@ -33,7 +33,7 @@
         * View their profile
         * View all employees of department
         * View all departments
-	* View all loans of that department
+	* View loans from all departments
         
         3. ADMIN
         * Login
