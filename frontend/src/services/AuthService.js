@@ -10,6 +10,7 @@ export function login(payload){
                 cognitousername: res.data.idToken.payload["cognito:username"],
                 email: res.data.idToken.payload["email"],
                 name: res.data.idToken.payload["name"],
+                role: res.data.details.emp_role,
                 status: true
             };
 

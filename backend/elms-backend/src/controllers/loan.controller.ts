@@ -151,7 +151,9 @@ export class LoanController {
 
   @Post()
   async createLoan(@Body() loanData: LoanRequest): Promise<loans> {
-    const { loan_amount, from_date, to_date, total_installments } = loanData;
+    const { loan_amount, total_installments } = loanData;
+    const from_date = new Date();
+    const to_date = this.addMonths(total_installments, new Date());
 
     const emp_no = 10003;
     const dept = await this.deptService.deptByEmpId({
@@ -203,5 +205,13 @@ export class LoanController {
         status: loan_status.COMPLETED,
       },
     });
+  }
+
+  addMonths(numOfMonths: number, date = new Date()) {
+    const dateCopy = new Date(date.getTime());
+
+    dateCopy.setMonth(dateCopy.getMonth() + numOfMonths);
+
+    return dateCopy;
   }
 }

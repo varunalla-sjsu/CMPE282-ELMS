@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { createStyles, Card, Container, Text, Pagination, Table } from "@mantine/core";
+import { useQuery } from "react-query";
+import { getLoansByEmpId } from "../../services/EmployeeService";
 
 const useStyles = createStyles((theme) => ({
     card: {
@@ -21,43 +23,40 @@ const useStyles = createStyles((theme) => ({
 export function LoanDetails() {
     const { classes } = useStyles();
     const [activePage, setPage] = useState(1);
-    const elements = [
-        { id: 6, amount: 12.011, months: 3, tenure: 12, symbol: 'Active', name: 'Carbon' },
-        { id: 7, amount: 14.007, months: 3, tenure: 12, symbol: 'Requested', name: 'Nitrogen' },
-        { id: 39, amount: 88.906, months: 3, tenure: 12, symbol: 'Closed', name: 'Yttrium' },
-        { id: 56, amount: 137.33, months: 3, tenure: 12, symbol: 'Closed', name: 'Barium' },
-        { id: 58, amount: 140.12, months: 3, tenure: 12, symbol: 'Active', name: 'Cerium' },
-      ];
+    const { data } = useQuery(["getLoansByEmpId", activePage],() => getLoansByEmpId(activePage), { keepPreviousData : true });
+    
 
-    const rows = elements.map((element) => (
-        <tr key={element.name}>
-          <td>{element.id}</td>
-          <td>{element.amount}</td>
-          <td>{element.months}</td>
-          <td>{element.tenure}</td>
-          <td className={classes.green}>{element.symbol}</td>
+    const rows = data.data.data.map((element) => (
+        <tr key={element.loanid}>
+          <td>{element.loanid}</td>
+          <td>{element.loan_amount}</td>
+          <td>{element.total_installments - element.paid_installments}</td>
+          <td>{element.total_installments / 12} years</td>
+          <td className={classes.green}>{element.status}</td>
         </tr>
       ));
 
+
+
     return (
         <Container>
-
             <Card withBorder radius="md" className={classes.card} >
                 <Text pb="40"><b>Loan Details</b></Text>
                 <Table>
-                <thead>
-                        <tr>
-                        <th>ID</th>
-                        <th>Amount</th>
-                        <th>Months Remaining</th>
-                        <th>Tenure</th>
-                        <th>Status</th>
-                        </tr>
+                    <thead>
+                      <tr>
+                      <th>ID</th>
+                      <th>Amount</th>
+                      <th>Months Remaining</th>
+                      <th>Tenure</th>
+                      <th>Status</th>
+                      </tr>
                     </thead>
                     <tbody>{rows}</tbody>
                 </Table>
             </Card>
-            <Pagination size="sm" page={activePage} onChange={setPage} total={3} withEdges />
+            
+            <Pagination size="lg" page={activePage} onChange={setPage} total={Math.floor(data.data.total / 20)} withEdges />
         </Container>
       );
 }
