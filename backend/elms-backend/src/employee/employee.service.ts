@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { EmployeeDetailsDto } from 'src/models/employee-details-dto';
 import { PrismaService } from 'src/services/prisma.service';
 
@@ -54,6 +55,31 @@ export class EmployeeService {
         },
         titles: true,
       },
+    });
+  }
+  async getAllEmployees(params: { skip?: number; take?: number }) {
+    const { skip, take } = params;
+    console.log('skip : ' + skip);
+    console.log('take : ' + take);
+    const dept = await this.prismaService.employees.findMany({
+      skip,
+      take,
+      include: {
+        titles: true,
+        user: true,
+        dept_emp: {
+          include: {
+            departments: true,
+          },
+        },
+      },
+    });
+
+    return dept;
+  }
+  getAllEmployeesCount(param: { where: Prisma.employeesWhereInput }) {
+    return this.prismaService.employees.count({
+      where: param.where,
     });
   }
 }

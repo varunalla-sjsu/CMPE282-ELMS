@@ -13,7 +13,8 @@ import { EmployeeService } from 'src/employee/employee.service';
 @Controller('loans')
 export class LoanController {
   constructor(private readonly loanService: LoanService, private readonly deptService: DepartmentsService, private readonly employeeService: EmployeeService) {}
-
+  @Roles(employees_role.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('/:id')
   async getLoansById(@Param('id') id: string): Promise<loansModel> {
     return this.loanService.loansByLoanId({ loanid: Number(id) });
@@ -90,6 +91,8 @@ export class LoanController {
 
     return response;
   }
+  @Roles(employees_role.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('/dept/:id/:page?/:pageSize?')
   async getLoansByDeptId(@Param('id') id: string, @Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
     if (pageSize === undefined) {
@@ -207,7 +210,7 @@ export class LoanController {
     });
 
     console.log(dept.dept_no);
-
+    // to do verify if he can take this loan
     return await this.loanService.createLoan({
       loan_amount,
       from_date,
@@ -246,9 +249,7 @@ export class LoanController {
   @Put('/reject/:id')
   async rejectLoan(@Req() req, @Param('id') id: string): Promise<loans> {
     //fetch emp dept
-    const dept = await this.employeeService.getEmployeeDepartment(
-      req.user.emp_no,
-    );
+    const dept = await this.employeeService.getEmployeeDepartment(req.user.emp_no);
     //fetch loan dept
     const loan = await this.loanService.loansByLoanId({ loanid: Number(id) });
     //check if both are same

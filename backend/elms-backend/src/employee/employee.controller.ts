@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, HttpException, HttpStatus, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpException, HttpStatus, Query, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { employees_role } from '@prisma/client';
 import { EmployeeResponse } from 'src/models/EmployeeResponse';
@@ -9,6 +9,32 @@ import { EmployeeService } from './employee.service';
 @Controller('employee')
 export class EmployeeController {
   constructor(private employeeService: EmployeeService) {}
+  @Roles(employees_role.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
+  @Get()
+  async getEmployees(@Query('page') page?: string, @Query('pageSize') pageSize?: string) {
+    if (pageSize === undefined) {
+      pageSize = '20';
+    }
+
+    if (page === undefined) {
+      page = '1';
+    }
+    const skip = (Number(page) - 1) * Number(pageSize);
+    const employees = await this.employeeService.getAllEmployees({
+      skip: skip,
+      take: Number(pageSize),
+    });
+    const totalCount = await this.employeeService.getAllEmployeesCount({
+      where: {},
+    });
+
+    const response = {
+      data: employees,
+      total: totalCount,
+    };
+    return response;
+  }
   @Roles(employees_role.ADMIN, employees_role.EMPLOYEE, employees_role.MANAGER)
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('profile')

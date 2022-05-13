@@ -10,12 +10,14 @@ import { EmployeeService } from 'src/employee/employee.service';
 @Controller('departments')
 export class DepartmentsController {
   constructor(private readonly deptService: DepartmentsService, private readonly employeeService: EmployeeService) {}
-
+  @Roles(employees_role.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('/:id')
   async getDeptById(@Param('id') id: string): Promise<departmentsModel> {
     return this.deptService.deptByDeptId({ dept_no: id });
   }
-
+  @Roles(employees_role.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('/:id/emps/:page?/:pageSize?')
   async getEmployeesByDeptId(@Param('id') id: string, @Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
     if (pageSize === undefined) {
