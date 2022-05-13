@@ -5,25 +5,25 @@ import { SignKeyObjectInput } from 'crypto';
 
 @Injectable()
 export class LoanService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
-  async allActiveLoans(params:{
-      where? : Prisma.loansWhereInput;
-      skip?: number;
-      take?: number;
+  async allActiveLoans(params: {
+    where?: Prisma.loansWhereInput;
+    skip?: number;
+    take?: number;
   }): Promise<loans[] | null> {
-    const { where ,skip,take} = params;
+    const { where, skip, take } = params;
     return this.prisma.loans.findMany({
-        where,
-        skip,
-        take,
-        include:{
-            department:true,
-            employees:true,
-        },
-        orderBy:{
-            from_date: 'desc'
-        }
+      where,
+      skip,
+      take,
+      include: {
+        department: true,
+        employees: true,
+      },
+      orderBy: {
+        from_date: 'desc'
+      }
     });
   }
 
@@ -32,9 +32,9 @@ export class LoanService {
   ): Promise<loans | null> {
     return this.prisma.loans.findUnique({
       where: loansWhereUniqueInput,
-      include: { 
-        employees:true,
-        department:true
+      include: {
+        employees: true,
+        department: true
 
       }
     });
@@ -45,67 +45,75 @@ export class LoanService {
     where?: Prisma.loansWhereInput;
     skip?: number;
     take?: number;
-    }): Promise<loans[]> {
-      const { where ,skip,take} = params;
-      console.log('skip : ' + skip);
-      console.log('take : ' + take);
-      return this.prisma.loans.findMany({
-        skip,
-        take,
-        where,
-        include: {
-          employees:true,
-          department: true
-        },
-        orderBy:{
-            from_date : 'desc'
-        }
-    
-      });
-    }
+  }): Promise<loans[]> {
+    const { where, skip, take } = params;
+    console.log('skip : ' + skip);
+    console.log('take : ' + take);
+    return this.prisma.loans.findMany({
+      skip,
+      take,
+      where,
+      include: {
+        employees: true,
+        department: true
+      },
+      orderBy: {
+        from_date: 'desc'
+      }
+
+    });
+  }
 
 
 
-    async loansByDeptId(params: {
-        where?: Prisma.loansWhereInput;
-        skip?: number;
-        take?: number;
-        }): Promise<loans[]> {
-          const { where , skip,take} = params;
+  async loansByDeptId(params: {
+    where?: Prisma.loansWhereInput;
+    skip?: number;
+    take?: number;
+  }): Promise<loans[]> {
+    const { where, skip, take } = params;
 
-          console.log('skip : ' + skip);
-            console.log('take : ' + take);
-          return this.prisma.loans.findMany({
-              skip,
-              take,
-            where,
-            include: {
-              employees:true,
-              department: true
-            },
-            orderBy:{
-                from_date : 'desc'
-            }
-    
-          });
-        }
+    console.log('skip : ' + skip);
+    console.log('take : ' + take);
+    return this.prisma.loans.findMany({
+      skip,
+      take,
+      where,
+      include: {
+        employees: true,
+        department: true
+      },
+      orderBy: {
+        from_date: 'desc'
+      }
+
+    });
+  }
 
 
-        async createLoan(data: Prisma.loansCreateInput): Promise<loans> {
-            return this.prisma.loans.create({
-                data,
-            });
-        }
+  async createLoan(data: Prisma.loansCreateInput): Promise<loans> {
+    return this.prisma.loans.create({
+      data,
+    });
+  }
 
-        async loansCountByCondition(params: {
-            where?: Prisma.loansWhereInput;
-            }): Promise<Number> {
-              const { where } = params;
-             const loansCount =  await this.prisma.loans.count({
-                where,
-            
-              });
+  async loansCountByCondition(params: {
+    where?: Prisma.loansWhereInput;
+  }): Promise<Number> {
+    const { where } = params;
+    const loansCount = await this.prisma.loans.count({
+      where,
 
-              return loansCount;
-            }
+    });
+
+    return loansCount;
+  }
+
+  async updateLoan(params: { where: Prisma.loansWhereUniqueInput; data: Prisma.loansUpdateInput }): Promise<loans> {
+    const { where, data } = params;
+    return this.prisma.loans.update({
+      data,
+      where,
+    });
+  }
 }

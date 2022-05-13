@@ -1,6 +1,6 @@
-import { Controller, Get, Param,Post,Body, Query } from '@nestjs/common';
+import { Controller, Get, Param,Post,Body, Query, Put } from '@nestjs/common';
 import { LoanService } from 'src/services/loan.service';
-import { loans, loans as loansModel } from '.prisma/client';
+import { loans, loans as loansModel, loan_status } from '.prisma/client';
 import { LoanRequest } from 'src/models/LoanRequest';
 import { DepartmentsService } from 'src/services/departments.service';
 
@@ -194,5 +194,36 @@ const emp_no = 10002;
             }
         });
 
+    }
+
+    @Put('/approve/:id')
+    async approveLoan(@Param('id') id: string): Promise<loans> {
+      return this.loanService.updateLoan({
+        where: { loanid: Number(id) },
+        data: { status: loan_status.APPROVED },
+      });
+    }
+
+    @Put('/reject/:id')
+    async rejectLoan(@Param('id') id: string): Promise<loans> {
+      return this.loanService.updateLoan({
+        where: { loanid: Number(id) },
+        data: { status: loan_status.REJECTED},
+      });
+    }
+
+    @Put('/preclose/:id')
+    async precloseLoan(@Param('id') id: string): Promise<loans> {
+
+        const loans =  await this.loanService.loansByLoanId({loanid : Number(id)});
+
+      return this.loanService.updateLoan({
+        where: { loanid: Number(id) },
+        data: { 
+            paid_installments : loans.total_installments,
+            status: loan_status.COMPLETED
+
+        },
+      });
     }
   } 
