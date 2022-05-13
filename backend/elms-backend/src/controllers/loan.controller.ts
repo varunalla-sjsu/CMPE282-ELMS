@@ -15,6 +15,40 @@ export class LoanController {
   constructor(private readonly loanService: LoanService, private readonly deptService: DepartmentsService, private readonly employeeService: EmployeeService) {}
   @Roles(employees_role.ADMIN)
   @UseGuards(AuthGuard('jwt'), RoleGuard)
+  @Get('/orgloans')
+  async getAllLoans(@Query('page') page?: string, @Query('pageSize') pageSize?: string) {
+    if (pageSize === undefined) {
+      pageSize = '20';
+    }
+
+    if (page === undefined) {
+      page = '1';
+    }
+    const skip = (Number(page) - 1) * Number(pageSize);
+    const loans = await this.loanService.allActiveLoans({
+      where: {
+        status: {
+          notIn: ['REQUESTED', 'REJECTED'],
+        },
+      },
+      skip: Number(skip),
+      take: Number(pageSize),
+    });
+    const totalCount = await this.loanService.loansCountByCondition({
+      where: { status: {
+        notIn: ['REQUESTED', 'REJECTED'],
+      },},
+    });
+
+    const response = {
+      data: loans,
+      total: totalCount,
+    };
+    return response;
+  }
+
+  @Roles(employees_role.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('/:id')
   async getLoansById(@Param('id') id: string): Promise<loansModel> {
     return this.loanService.loansByLoanId({ loanid: Number(id) });
@@ -73,6 +107,9 @@ export class LoanController {
     const loandata = await this.loanService.loansByDeptId({
       where: {
         dept_no: id,
+        status: {
+          notIn: ['COMPLETED'],
+        },
       },
       skip: skip,
       take: Number(pageSize),
@@ -81,6 +118,51 @@ export class LoanController {
     const totalCount = await this.loanService.loansCountByCondition({
       where: {
         dept_no: id,
+        status: {
+          notIn: ['COMPLETED'],
+        },
+      },
+    });
+
+    const response = {
+      data: loandata,
+      total: totalCount,
+    };
+
+    return response;
+  }
+  @Roles(employees_role.MANAGER, employees_role.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
+  @Get('/mydept/allloans/:page?/:pageSize?')
+  async getLoansOfMyDept(@Req() req, @Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
+    const dept = await this.employeeService.getEmployeeDepartment(req.user.emp_no);
+    const id = dept.dept_no;
+    if (pageSize === undefined) {
+      pageSize = '20';
+    }
+
+    if (page === undefined) {
+      page = '1';
+    }
+
+    const skip = (Number(page) - 1) * Number(pageSize);
+    const loandata = await this.loanService.loansByDeptId({
+      where: {
+        dept_no: id,
+        status: {
+          in: ['APPROVED', 'COMPLETED'],
+        },
+      },
+      skip: skip,
+      take: Number(pageSize),
+    });
+
+    const totalCount = await this.loanService.loansCountByCondition({
+      where: {
+        dept_no: id,
+        status: {
+          in: ['APPROVED', 'COMPLETED'],
+        },
       },
     });
 
@@ -165,7 +247,7 @@ export class LoanController {
   @Roles(employees_role.EMPLOYEE)
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('/all/active/:page?/:pageSize?')
-  async getAllActiveLoans(@Req() req,@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
+  async getAllActiveLoans(@Req() req, @Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
     if (pageSize === undefined) {
       pageSize = '20';
     }

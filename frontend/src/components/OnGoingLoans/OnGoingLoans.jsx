@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createStyles, Card, Container, Text, Table, Button } from "@mantine/core";
+import { createStyles, Card, Container, Text, Table, Button, Pagination } from "@mantine/core";
 import { useQuery } from "react-query";
 import { getEmployeeActiveLoan } from "../../services/EmployeeService";
 
@@ -26,10 +26,10 @@ const useStyles = createStyles((theme) => ({
 
 export function OnGoingLoans() {
     const { classes } = useStyles();
-    const [opened, setOpen] = useState(false);
-    const { data } = useQuery("getEmployeeActiveLoan", getEmployeeActiveLoan);
+    const [activePage, setPage] = useState(1);
+    const { data } = useQuery(["getEmployeeActiveLoan",activePage],() => getEmployeeActiveLoan(activePage), { keepPreviousData : true });
 
-    const rows = data.data.map((element) => (
+    const rows = data.data.data.map((element) => (
         <tr key={element.loanid}>
           <td>{element.loanid}</td>
           <td>{element.loan_amount}</td>
@@ -59,6 +59,7 @@ export function OnGoingLoans() {
                     <tbody>{rows}</tbody>
                 </Table>
             </Card>
+            <Pagination size="lg" page={activePage} onChange={setPage} total={Math.ceil(data.data.total / 20)} withEdges />
         </Container>
       );
 }

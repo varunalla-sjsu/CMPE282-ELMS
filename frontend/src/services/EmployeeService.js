@@ -2,7 +2,10 @@ import axiosClient from "./axios"
 import useAuth from './../helpers/useAuth'
 export function getLoansByEmpId(page){
     return new Promise((resolve, reject) => {
-        axiosClient.get(`/api/loans/by/empId?page=${page}&pageSize=20`).then((res) => {
+        let user = useAuth();
+        axiosClient.get(`/api/loans/by/empId?page=${page}&pageSize=20`, {headers: {
+            'Authorization': `Bearer ${user.token}`
+        }}).then((res) => {
             resolve(res);
         }).catch((err) => reject(err))
     })
@@ -11,7 +14,6 @@ export function getLoansByEmpId(page){
 export function getEmployeeProfile(){
     return new Promise((resolve, reject) => {
        let user= useAuth();
-       console.log('user ',user);
         axiosClient.get(`api/employee/profile`,{headers: {
             'Authorization': `Bearer ${user.token}`
         }}).then((res) => {
@@ -20,10 +22,30 @@ export function getEmployeeProfile(){
     })
 }
 
-export function getEmployeeActiveLoan(){
+export function getEmployeeActiveLoan(page){
     return new Promise((resolve, reject) => {
-        axiosClient.get(`api/loans/active/emp/10002?page=1&pageSize=20`).then((res) => {
+        let user = useAuth();
+        axiosClient.get(`/api/loans/all/active?page=${page}&pageSize=20`, {
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            },
+        }).then((res) => {
             resolve(res);
         }).catch((err) => reject(err))
+    })
+}
+
+export function createEmployeeLoan(payload){
+
+    return new Promise((resolve, reject) => {
+        let user = useAuth();
+
+        axiosClient.post(`/api/loans`, payload, {
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            },
+        }).then((res) => {
+            resolve(res);
+        }).catch((err) => reject(err));
     })
 }
