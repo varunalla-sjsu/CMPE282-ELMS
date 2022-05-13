@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
 import { AppShell, Footer, useMantineTheme } from '@mantine/core';
 import SuspenseSpinner from "../components/SuspenseFallback";
 import TopBar from "../components/TopBar";
@@ -9,6 +9,14 @@ import useAuth from "../helpers/useAuth";
 //const Home = lazy(() => import('../pages/Home'));
 const Login = lazy(() => import('../pages/Auth/Login'))
 const Employees = lazy(() => import('../pages/Employees'))
+const Manager = lazy(() => import('../pages/Manager'))
+const Admin = lazy(() => import('../pages/Admin'))
+
+const AuthDash = () => {
+  return (<>
+  Hello
+  </>)
+}
 
 /**
  * @component Path 
@@ -25,8 +33,12 @@ export const Path = () => {
    * in element: pass lazy elements for code splitting for code to load async.
    */
   const elements = (auth) => [
+    { path: "/login", element: <Login />, index: true },
+    { path: "/dashboard", element: auth.token ? <AuthDash /> : <Navigate to="/login" /> , index: true },
     { path: "/", element: <Login />, index: true },
     { path: "/empdashboard", element: <Employees />, index: true },
+    { path: "/managerdashboard", element: <Manager />, index: true },
+    { path: "/admin", element: <Admin />, index: true },
     { path: "*", element: <h1>Not Found!</h1> }
 ]
 

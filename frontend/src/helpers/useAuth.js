@@ -1,12 +1,11 @@
 
 const useAuth=()=>{
-    // const user=localStorage.getItem('user')
-    // if(user){
-    //   return true
-    // } else {
-    //   return false
-    // }
-    return true;
+    const user = localStorage.getItem('user')
+    if(user){
+      return JSON.parse(user)
+    } else {
+      return false
+    }
   }
 
   export default useAuth

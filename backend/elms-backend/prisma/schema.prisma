@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+
 }
 
 datasource db {
@@ -19,6 +20,7 @@ model departments {
   dept_name    String         @unique(map: "dept_name") @db.VarChar(40)
   dept_emp     dept_emp[]
   dept_manager dept_manager[]
+  loans        loans[]
 }
 
 model dept_emp {
@@ -97,8 +99,10 @@ model loans {
   total_installments Int
   status             loan_status @default(REQUESTED)
   employees          employees   @relation(fields: [emp_no], references: [emp_no], onDelete: Cascade, onUpdate: NoAction)
-
+   dept_no      String          @db.Char(4)
+  department         departments @relation(fields: [dept_no], references: [dept_no])
   @@index([emp_no], map: "loans_emp_no_fkey")
+  @@index([dept_no], map: "loans_dept_no_fkey")
 }
 
 enum employees_gender {

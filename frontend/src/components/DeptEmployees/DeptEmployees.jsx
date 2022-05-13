@@ -16,26 +16,35 @@ const useStyles = createStyles((theme) => ({
       fontWeight: 600,
       marginBottom: theme.spacing.xs / 2,
     },
+
+    subtitle: {
+        display: 'block',
+        fontSize: 18,
+        marginBottom: 20,
+      },
+
+    para:{
+        fontSize: 14,
+        paddingBottom: 12,
+    }
   }));
 
-export function LoanDetails() {
+export function DeptEmployees() {
     const { classes } = useStyles();
     const [activePage, setPage] = useState(1);
     const elements = [
-        { id: 6, amount: 12.011, months: 3, tenure: 12, symbol: 'Active', name: 'Carbon' },
-        { id: 7, amount: 14.007, months: 3, tenure: 12, symbol: 'Requested', name: 'Nitrogen' },
-        { id: 39, amount: 88.906, months: 3, tenure: 12, symbol: 'Closed', name: 'Yttrium' },
-        { id: 56, amount: 137.33, months: 3, tenure: 12, symbol: 'Closed', name: 'Barium' },
-        { id: 58, amount: 140.12, months: 3, tenure: 12, symbol: 'Active', name: 'Cerium' },
+        { id: 1, first_name: 'Jane', last_name: 'Doe', title: 'Accountant', hire_date: '5-12-2022' },
+        { id: 2, first_name: 'Jane', last_name: 'Doe', title: 'Accountant', hire_date: '5-12-2022' },
+        { id: 3, first_name: 'Jane', last_name: 'Doe', title: 'Accountant', hire_date: '5-12-2022' },
+        { id: 4, first_name: 'Jane', last_name: 'Doe', title: 'Accountant', hire_date: '5-12-2022' },
       ];
 
     const rows = elements.map((element) => (
         <tr key={element.name}>
           <td>{element.id}</td>
-          <td>{element.amount}</td>
-          <td>{element.months}</td>
-          <td>{element.tenure}</td>
-          <td className={classes.green}>{element.symbol}</td>
+          <td>{element.first_name} {element.last_name}</td>
+          <td>{element.title}</td>
+          <td>{element.hire_date}</td>
         </tr>
       ));
 
@@ -43,15 +52,13 @@ export function LoanDetails() {
         <Container>
 
             <Card withBorder radius="md" className={classes.card} >
-                <Text pb="40"><b>Loan Details</b></Text>
                 <Table>
                 <thead>
                         <tr>
                         <th>ID</th>
-                        <th>Amount</th>
-                        <th>Months Remaining</th>
-                        <th>Tenure</th>
-                        <th>Status</th>
+                        <th>Name</th>
+                        <th>Title</th>
+                        <th>Start Date</th>
                         </tr>
                     </thead>
                     <tbody>{rows}</tbody>
