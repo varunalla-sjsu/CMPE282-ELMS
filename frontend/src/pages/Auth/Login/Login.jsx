@@ -32,7 +32,7 @@ export function Login() {
 
   function onSubmitLogin(email, password){
       loginMutation.mutateAsync({
-          email: email,
+          username: email,
           password: password
       }).then((res) => {
           localStorage.setItem("user",JSON.stringify(res));

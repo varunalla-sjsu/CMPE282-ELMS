@@ -13,7 +13,7 @@ export class DepartmentsController {
   }  
 
   @Get('/:id/emps/:page?/:pageSize?')
-  async getEmployeesByDeptId(@Param('id') id: string,@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<dept_emp[]> {
+  async getEmployeesByDeptId(@Param('id') id: string,@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
 
     if( pageSize === undefined){
         pageSize= "20";
@@ -24,13 +24,25 @@ export class DepartmentsController {
     }
   
     const skip = (Number(page)-1) * Number(pageSize);
-    return  this.deptService.employeesByDeptId({
+    const deptData= await this.deptService.employeesByDeptId({
         where:{
             dept_no : id
         },
         skip: skip,
         take : Number(pageSize)  
         });
+
+        const totalCount = await this.deptService.deptEmpCountByCondition({
+          where: {
+            dept_no : id
+          }
+        });
+  
+        var response = {
+          "data" : deptData,
+          "total" : totalCount
+      };
+      return response;
 
   }
   

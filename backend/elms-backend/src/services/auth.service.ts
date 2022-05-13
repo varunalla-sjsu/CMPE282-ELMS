@@ -1,11 +1,12 @@
 import { AuthConfig } from '../config/auth.config';
 import { Inject, Injectable } from '@nestjs/common';
 import { AuthenticationDetails, CognitoUser, CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { EmployeeService } from 'src/employee/employee.service';
 
 @Injectable()
 export class AuthService {
   private userPool: CognitoUserPool;
-  constructor(private readonly authConfig: AuthConfig) {
+  constructor(private readonly authConfig: AuthConfig, private readonly employeeService: EmployeeService) {
     this.userPool = new CognitoUserPool({
       UserPoolId: this.authConfig.userPoolId,
       ClientId: this.authConfig.clientId,
@@ -84,10 +85,14 @@ export class AuthService {
 
     return new Promise((resolve, reject) => {
       newUser.authenticateUser(authenticationDetails, {
-        onSuccess: (result) => {
+        onSuccess: async (result) => {
           // Tried destructing the data but was not needed for this api.
           //const data = { token: { jwtToken: result.getIdToken().getJwtToken(), refreshToken: result.getRefreshToken().getToken(), accessToken: result.getAccessToken().getJwtToken() } }
-          resolve(result);
+          console.log('Login Success');
+          const user = await this.employeeService.getEmployeeByEmail(email);
+          console.log(user);
+          const response = { ...result, details: user };
+          resolve(response);
         },
         onFailure: (err) => {
           if (err.code === 'UserNotConfirmedException') {

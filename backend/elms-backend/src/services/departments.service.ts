@@ -77,4 +77,30 @@ export class DepartmentsService {
         }
     
 
+
+        async deptByEmpId( params :{
+          where? : Prisma.dept_empWhereInput,
+        }
+         
+        ): Promise<dept_emp | null> {
+          const { where } = params
+          const deptEmpt = await this.prisma.dept_emp.findMany({
+            where,          
+          });
+
+          return deptEmpt[0];
+        }
+
+        async deptEmpCountByCondition(params: {
+          where?: Prisma.dept_empWhereInput;
+          }): Promise<Number> {
+            const { where } = params;
+           const deptEmpCount =  await this.prisma.dept_emp.count({
+              where,
+          
+            });
+
+            return deptEmpCount;
+          }
+
 }
