@@ -13,15 +13,20 @@ import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
 import { EmployeeService } from './employee/employee.service';
 import { EmployeeController } from './employee/employee.controller';
+import { LoanController } from './controllers/loan.controller';
+import { LoanService } from './services/loan.service';
+import { DepartmentsController } from './controllers/departments.controller';
+import { DepartmentsService } from './services/departments.service';
 @Module({
-  imports: [ ServeStaticModule.forRoot({
-    rootPath: join(__dirname, '..', 'public'),
-    exclude: ['/api*'],
-  }),
-  PassportModule.register({ defaultStrategy: 'jwt' }),
-  ConfigModule.forRoot(),
-],
-  controllers: [AppController, AuthController, EmployeeController],
-  providers: [PrismaService, AppService, AuthService, AuthConfig, JwtStrategy, EmployeeService],
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      exclude: ['/api*'],
+    }),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    ConfigModule.forRoot(),
+  ],
+  controllers: [AppController, AuthController, EmployeeController, LoanController, DepartmentsController],
+  providers: [PrismaService, AppService, AuthService, AuthConfig, JwtStrategy, EmployeeService, LoanService, DepartmentsService],
 })
 export class AppModule {}
