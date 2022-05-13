@@ -34,7 +34,7 @@ const useStyles = createStyles((theme) => ({
 export function EmpDetails() {
     const { classes } = useStyles();
     const [opened, setOpen] = useState(false);
-
+ 
     const { data: item } = useQuery("getEmployeeProfile", getEmployeeProfile);
   
     return (
@@ -43,12 +43,12 @@ export function EmpDetails() {
                     <Text className={classes.title}>{item.first_name} {item.last_name}</Text>
                     <Card withBorder radius="md" className={classes.card} >
                         <Text  className={classes.subtitle}><b>Details</b></Text>
-                        <Text className={classes.para}> <b>Date of Birth:</b> {item.birth_date}</Text> {/* {birth_date} */}
-                        <Text className={classes.para}> <b>Date of Hire:</b> {item.hire_date}</Text>{/* {hire_date} */}
+                        <Text className={classes.para}> <b>Date of Birth:</b> {(new Date(item.birth_date)).toLocaleDateString()}</Text> {/* {birth_date} */}
+                        <Text className={classes.para}> <b>Date of Hire:</b> {(new Date(item.hire_date)).toLocaleDateString()}</Text>{/* {hire_date} */}
                         <Text className={classes.para}> <b>Role:</b> {item.title}</Text>{/* {titles} */}
                         <Text className={classes.para}> <b>Department:</b> {item.dept_name}</Text>{/* {dept_emp} */}
                         <Text className={classes.para}> <b>Department Manager:</b> {item.dept_manager}</Text>{/* {dept_manager} */}
-                        <Text className={classes.para}> <b>Current Salary:</b> {item.salary}</Text>{/* {salary} */}
+                        <Text className={classes.para}> <b>Current Salary:</b> $ {item.salary}</Text>{/* {salary} */}
                     </Card>
                 </>
         </Container>

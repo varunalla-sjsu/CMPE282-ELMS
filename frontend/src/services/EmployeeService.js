@@ -1,5 +1,5 @@
 import axiosClient from "./axios"
-
+import useAuth from './../helpers/useAuth'
 export function getLoansByEmpId(page){
     return new Promise((resolve, reject) => {
         axiosClient.get(`/api/loans/by/empId?page=${page}&pageSize=20`).then((res) => {
@@ -10,7 +10,11 @@ export function getLoansByEmpId(page){
 
 export function getEmployeeProfile(){
     return new Promise((resolve, reject) => {
-        axiosClient.get(`api/employee/profile`).then((res) => {
+       let user= useAuth();
+       console.log('user ',user);
+        axiosClient.get(`api/employee/profile`,{headers: {
+            'Authorization': `Bearer ${user.token}`
+        }}).then((res) => {
             resolve(res.data);
         }).catch((err) => reject(err));
     })
