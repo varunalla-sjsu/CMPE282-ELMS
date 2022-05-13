@@ -101,10 +101,18 @@ We maintained a project board on trello and had bi-weekly sprint where we met da
 
 #### GitHub Actions
 
+<img width="1440" alt="Screen Shot 2022-05-13 at 2 27 28 PM" src="https://user-images.githubusercontent.com/90986401/168392170-67626baa-abdb-4710-9652-2a03ed255dec.png">
+
+<img width="1440" alt="Screen Shot 2022-05-13 at 2 28 03 PM" src="https://user-images.githubusercontent.com/90986401/168392180-9005c6cd-d0d2-4c22-93a6-b1e8e0fcd6f1.png">
+
+<img width="1440" alt="Screen Shot 2022-05-13 at 2 28 34 PM" src="https://user-images.githubusercontent.com/90986401/168392188-8ca914d5-cbf5-470b-bd78-0f14f541c9da.png">
+
 
 ### Website Screenshots
 
 #### Login
+
+<img width="1440" alt="Screen Shot 2022-05-13 at 2 31 06 PM" src="https://user-images.githubusercontent.com/90986401/168392265-0537404d-8786-4b3a-98b8-a291fc632322.png">
 
 
 #### Employee Dashboard
