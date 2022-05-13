@@ -38,7 +38,7 @@ export class LoanController {
         take: Number(pageSize)
       });
 
-      const totalCount = await this.loanService.loansCountByEmpId({
+      const totalCount = await this.loanService.loansCountByCondition({
         where: {
          
               emp_no: emp_no,
@@ -55,7 +55,7 @@ export class LoanController {
   }
   
   @Get('/dept/:id/:page?/:pageSize?')
-  async getLoansByDeptId(@Param('id') id: string,@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<loansModel[]> {
+  async getLoansByDeptId(@Param('id') id: string,@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
 
   if( pageSize === undefined){
       pageSize= "20";
@@ -66,7 +66,7 @@ export class LoanController {
   }
 
   const skip = (Number(page)-1) * Number(pageSize);
-    return this.loanService.loansByDeptId({
+    const loandata =  await this.loanService.loansByDeptId({
         where: {
               dept_no: id,
             
@@ -74,10 +74,27 @@ export class LoanController {
         skip: skip,
         take: Number(pageSize)
       });
+
+
+      const totalCount = await this.loanService.loansCountByCondition({
+        where: {
+         
+            dept_no: id,
+        }
+      });
+
+      var response = {
+        "data" : loandata,
+        "total" : totalCount
+    };
+
+    return response;
   }
 
-  @Get('/active/emp/:id/:page?/:pageSize?')
-  async getActiveLoansForEmployee(@Param('id') id: string,@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<loansModel[]> {
+  @Get('/active/emp/:page?/:pageSize?')
+  async getActiveLoansForEmployee(@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
+
+const emp_no = 10002;
 
   if( pageSize === undefined){
       pageSize= "20";
@@ -88,19 +105,32 @@ export class LoanController {
   }
 
   const skip = (Number(page)-1) * Number(pageSize);
-    return this.loanService.loansByEmpId({
+    const loandata= await this.loanService.loansByEmpId({
         where: {
-              emp_no: Number(id),
+              emp_no: emp_no,
               status : "APPROVED"
             
         },
         skip: skip,
         take: Number(pageSize)
       });
+
+      const totalCount = await this.loanService.loansCountByCondition({
+        where: {
+            emp_no: emp_no,
+            status : "APPROVED"
+        }
+      });
+
+      var response = {
+        "data" : loandata,
+        "total" : totalCount
+    };
+    return response;
   }
 
   @Get('/all/active/:page?/:pageSize?')
-  async getAllActiveLoans(@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<loansModel[]> {
+  async getAllActiveLoans(@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
 
 
     if( pageSize === undefined){
@@ -112,7 +142,7 @@ export class LoanController {
     }
   
     const skip = (Number(page)-1) * Number(pageSize);
-      return this.loanService.allActiveLoans({
+      const loandata  = await this.loanService.allActiveLoans({
           where: {
                 status : "APPROVED"
               
@@ -120,6 +150,19 @@ export class LoanController {
           skip: skip,
           take: Number(pageSize)
         });
+
+
+        const totalCount = await this.loanService.loansCountByCondition({
+            where: {
+                status : "APPROVED"
+            }
+          });
+    
+          var response = {
+            "data" : loandata,
+            "total" : totalCount
+        };
+        return response;
     }
 
 

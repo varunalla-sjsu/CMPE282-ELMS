@@ -97,7 +97,7 @@ export class LoanService {
             });
         }
 
-        async loansCountByEmpId(params: {
+        async loansCountByCondition(params: {
             where?: Prisma.loansWhereInput;
             }): Promise<Number> {
               const { where } = params;
