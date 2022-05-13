@@ -57,11 +57,6 @@
 ![WhatsApp Image 2022-05-13 at 11 44 13 AM](https://user-images.githubusercontent.com/90986401/168385941-8ab024e5-0925-4de2-9dc4-af982c0f81fe.jpeg)
 
 
-## [Project Board]
-We maintained a project board on trello and had bi-weekly sprint where we met daily to discuss on the task progress. This help in collaboration, communication, feedback, resolving blockers, resolving depencies etc.
-
-
-
 ### Technology Stack
 
     The project will be developed using:
