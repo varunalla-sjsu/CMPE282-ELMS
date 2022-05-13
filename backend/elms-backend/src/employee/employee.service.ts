@@ -6,8 +6,13 @@ import { PrismaService } from 'src/services/prisma.service';
 export class EmployeeService {
   constructor(private prismaService: PrismaService) {}
   getEmployeeDepartment(id: number) {
-    return this.prismaService.departments.findFirst({
-      where: {},
+    return this.prismaService.dept_emp.findFirst({
+      where: {
+        emp_no: id,
+      },
+      include: {
+        departments: true,
+      },
     });
   }
   getEmployeeByEmail(email: string) {
