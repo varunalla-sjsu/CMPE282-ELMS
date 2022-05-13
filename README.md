@@ -98,22 +98,6 @@ We maintained a project board on trello and had bi-weekly sprint where we met da
 
 ### Automate Deployment 
 
-#### Login Page
-
-
-#### Jenkins Dashboard
-
-
-
-
-#### Pipeline Configuration 
-
-
-#### Build History 
-
-
-#### Console Output 
-
 
 #### GitHub Actions
 
