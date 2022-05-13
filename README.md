@@ -25,7 +25,7 @@
         * Request for a loan
         * View their profile
         * View loan details
-        * View all loans
+	* View all loans
         
         2. MANAGER
         * Login
@@ -62,7 +62,7 @@
     The project will be developed using:
     
       * Front End UI: React
-      * SSO: Cognito. 
+      * Authentication: Cognito. 
       * Backend: Node JS, TypeScript, NestJs, Express,Prisma
       * Database : MySQL
       * DNS : Route53
