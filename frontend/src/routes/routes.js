@@ -71,6 +71,7 @@ export const Path = () => {
             </Footer>
           }
         >
+
           {routes}
         </AppShell>
       </Suspense>

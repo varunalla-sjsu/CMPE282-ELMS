@@ -1,0 +1,1 @@
+export { OnDeptLoans as default } from './OnDeptLoans'

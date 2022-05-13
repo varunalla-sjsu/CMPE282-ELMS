@@ -11,11 +11,20 @@ export function getLoanRequestsByDept(page){
         }).catch((err) => reject(err));
     })
 }
-
+export function getAllDeptLoans(page){
+    return new Promise((resolve, reject) => {
+        let user= useAuth();
+        axiosClient.get(`/api/loans/mydept/allloans?page=${page}&pageSize=20`,{headers: {
+            'Authorization': `Bearer ${user.token}`
+        }}).then((res) => {
+            resolve(res.data);
+        }).catch((err) => reject(err));
+    })
+}
 export function approveLoan(loanId){
     return new Promise((resolve, reject) => {
         let user= useAuth();
-        axiosClient.put(`/api/loans/approve/${loanId}`,{headers: {
+        axiosClient.put(`/api/loans/approve/${loanId}`,{},{headers: {
             'Authorization': `Bearer ${user.token}`
         }}).then((res) => {
             resolve(res.data);
@@ -27,7 +36,7 @@ export function rejectLoan(loanId){
 
     return new Promise((resolve, reject) => {
         let user= useAuth();
-        axiosClient.put(`/api/loans/reject/${loanId}`,{
+        axiosClient.put(`/api/loans/reject/${loanId}`,{},{
             headers: {
             'Authorization': `Bearer ${user.token}`
         }}).then((res) => {

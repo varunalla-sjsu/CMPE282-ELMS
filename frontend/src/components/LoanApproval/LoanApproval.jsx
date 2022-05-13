@@ -87,7 +87,7 @@ export function LoanApproval() {
           <td>{element.loanid}</td>
           <td>${element.loan_amount}</td>
           <td>{element.total_installments/12}</td>
-          <td><Button color="teal" onClick={(e)=>{approveL(element.loanid)}}>Accept</Button> <Button color="red" onClick={(e)=>{rejectL(element.loanid)}}>Reject</Button></td>
+          <td>{element.status==="REQUESTED"&& <div><Button color="teal" onClick={(e)=>{approveL(element.loanid)}}>Accept</Button> <Button color="red" onClick={(e)=>{rejectL(element.loanid)}}>Reject</Button></div>} {element.status!=="REQUESTED" && element.status}</td>
         </tr>
       ));
 

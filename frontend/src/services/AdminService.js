@@ -39,7 +39,7 @@ export function preCloseLoan(id){
     return new Promise((resolve, reject) => {
         let user= useAuth();
         console.log('user ',user);
-        axiosClient.put(` /api/loans/preclose/`+id,{headers: {
+        axiosClient.put(`/api/loans/preclose/`+id,{},{headers: {
             'Authorization': `Bearer ${user.token}`
         }}).then((res) => {
             resolve(res);
