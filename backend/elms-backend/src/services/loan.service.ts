@@ -90,4 +90,22 @@ export class LoanService {
           });
         }
 
+
+        async createLoan(data: Prisma.loansCreateInput): Promise<loans> {
+            return this.prisma.loans.create({
+                data,
+            });
+        }
+
+        async loansCountByEmpId(params: {
+            where?: Prisma.loansWhereInput;
+            }): Promise<Number> {
+              const { where } = params;
+             const loansCount =  await this.prisma.loans.count({
+                where,
+            
+              });
+
+              return loansCount;
+            }
 }

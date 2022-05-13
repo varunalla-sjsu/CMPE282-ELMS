@@ -90,7 +90,7 @@ model titles {
 }
 
 model loans {
-  loanid             Int         @id
+  loanid             Int         @id @default(autoincrement())
   emp_no             Int
   loan_amount        Int
   from_date          DateTime    @db.Date

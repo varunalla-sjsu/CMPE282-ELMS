@@ -77,4 +77,18 @@ export class DepartmentsService {
         }
     
 
+
+        async deptByEmpId( params :{
+          where? : Prisma.dept_empWhereInput,
+        }
+         
+        ): Promise<dept_emp | null> {
+          const { where } = params
+          const deptEmpt = await this.prisma.dept_emp.findMany({
+            where,          
+          });
+
+          return deptEmpt[0];
+        }
+
 }
