@@ -15,6 +15,34 @@ export class LoanController {
   constructor(private readonly loanService: LoanService, private readonly deptService: DepartmentsService, private readonly employeeService: EmployeeService) {}
   @Roles(employees_role.ADMIN)
   @UseGuards(AuthGuard('jwt'), RoleGuard)
+  @Get('/orgloans')
+  async getAllLoans(@Query('page') page?: string, @Query('pageSize') pageSize?: string) {
+    if (pageSize === undefined) {
+      pageSize = '20';
+    }
+
+    if (page === undefined) {
+      page = '1';
+    }
+    const skip = (Number(page) - 1) * Number(pageSize);
+    const loans = await this.loanService.allActiveLoans({
+      where: {},
+      skip: Number(skip),
+      take: Number(pageSize),
+    });
+    const totalCount = await this.loanService.loansCountByCondition({
+      where: {},
+    });
+
+    const response = {
+      data: loans,
+      total: totalCount,
+    };
+    return response;
+  }
+
+  @Roles(employees_role.ADMIN)
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('/:id')
   async getLoansById(@Param('id') id: string): Promise<loansModel> {
     return this.loanService.loansByLoanId({ loanid: Number(id) });
@@ -165,7 +193,7 @@ export class LoanController {
   @Roles(employees_role.EMPLOYEE)
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @Get('/all/active/:page?/:pageSize?')
-  async getAllActiveLoans(@Req() req,@Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
+  async getAllActiveLoans(@Req() req, @Query('page') page?: string, @Query('pageSize') pageSize?: string): Promise<Object> {
     if (pageSize === undefined) {
       pageSize = '20';
     }
